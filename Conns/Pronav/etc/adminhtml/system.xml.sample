@@ -30,9 +30,41 @@
                 <field id="load_jquery_easing" type="select" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Load jQuery Easing (1.3)</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>connspronav/general/enabled</config_path>
+                    <config_path>connspronav/general/load_jquery_easing</config_path>
                     <comment>
-                        Loads in jQuery, turn this off if jQuery is loaded already or elsewhere.
+                        jQuery needs to be loaded for easing capabilities. Used for animations.
+                    </comment>
+                </field>
+                <field id="load_jquery_noconflict" type="select" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Load jQuery.noConflict()</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>connspronav/general/load_jquery_noconflict</config_path>
+                    <comment>
+                        If you are having issues with jQuery, turn this on to load in jQuery.noConflict().
+                    </comment>
+                </field>
+                <field id="nav_width" type="select" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>ProNav Width (in pixels)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>connspronav/general/nav_width</config_path>
+                    <comment>
+                        This is the width of your navigation (not the size of the dropdown), if not specified, the width will be 100% of its container element. e.g. for 900 pixels, enter 900px (must include px).
+                    </comment>
+                </field>
+                <field id="sensitivity" type="text" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sensitivity</label>
+                    <validate>validate-number</validate>
+                    <config_path>connspronav/general/sensitivity</config_path>
+                    <comment>
+                        Sensitivity threshold (must be 1 or higher).
+                    </comment>
+                </field>
+                <field id="interval" type="text" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Interval</label>
+                    <validate>validate-number</validate>
+                    <config_path>connspronav/general/interval</config_path>
+                    <comment>
+                        Milliseconds for mouse over polling interval. (1000ms = 1s).
                     </comment>
                 </field>
             </group>
