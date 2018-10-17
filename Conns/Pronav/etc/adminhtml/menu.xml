@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+                id="Conns_Pronav::unique_identifier"
+                resource="Conns_Pronav::config"
+                title="Temp Conns Pronav"
+                action="pronav/items/index"
+                module="Conns_Pronav"
+                sortOrder="10"
+                parent="Magento_Backend::content"
+                dependsOnModule="Magento_Backend"
+        />
+    </menu>
+</config>
