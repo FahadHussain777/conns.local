@@ -53,7 +53,6 @@ class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
             return $this;
         }
         $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->getSelect();
         $this->applyToCollection($productCollection);
         $categoryCollection = ObjectManager::getInstance()->create(
             \Magento\Catalog\Model\ResourceModel\Category\Collection::class
