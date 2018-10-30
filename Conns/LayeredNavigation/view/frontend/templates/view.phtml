@@ -40,46 +40,17 @@
             <?php endif; ?>
         </div>
     </div>
-    <input  class="action primary   " type="submit" id="conns-layered-nav-apply" value="Apply Filters" disabled="true"/>
+    <input  class="action primary " type="submit" id="conns-layered-nav-apply" value="Apply" style="visibility:hidden"/>
 <?php endif; ?>
 
 <script type="text/x-magento-init">
     {
         ".conns-nav-item": {
             "conns_navfilter":{}
+        },
+
+        "#conns-layered-nav-apply": {
+            "conns_submitquery":{}
         }
     }
-</script>
-<script>
-    require(['jquery'],function ($) {
-        $('#conns-layered-nav-apply').on('click',function () {
-            var query = {};
-            $('.conns-layerednavigation-items').each(function () {
-                if($(this).prop('tagName')=='OL'){
-                    $(this).children('li.conns-nav-item.active').each(function () {
-                        var parameter = $(this).attr('parameter');
-                        var value = $(this).attr('val');
-                        if(query[parameter] != undefined){
-                            query[parameter] = query[parameter]+','+value;
-                        }
-                        else
-                            query[parameter] = value;
-                    });
-                }
-                else if($(this).prop('tagName')=='DIV'){
-                    $(this).find('a.conns-nav-item.active').each(function () {
-                        var parameter = $(this).attr('parameter');
-                        var value = $(this).attr('val');
-                        if(query[parameter] != undefined){
-                            query[parameter] = query[parameter]+','+value;
-                        }
-                        else
-                            query[parameter] = value;
-                    });
-                }
-            });
-            var recursiveDecoded = decodeURIComponent( $.param( query ) );
-            window.location = window.location.pathname+'?'+recursiveDecoded;
-        });
-    });
 </script>
