@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 10/24/18
- * Time: 4:09 PM
- */
 
 namespace Conns\LayeredNavigation\Plugin\Model\Adapter\Mysql\Filter;
 
@@ -21,7 +15,7 @@ class Preprocessor
         $this->urlBuilder = $urlBuilder;
     }
 
-    public function arroundProcess(
+    public function aroundProcess(
         MagentoPreprocessor  $subject,
         \Closure $proceed,
         FilterInterface $filter,
@@ -36,12 +30,12 @@ class Preprocessor
                     list($from, $to) = explode("-", $value);
                     $statement = [
                         $this->getSqlStringByArray(
-                            [floatval($from)],
+                            [(float)$from],
                             'final_price',
                             '>='
                         ),
                         $this->getSqlStringByArray(
-                            [floatval($to)],
+                            [(float)round($to)],
                             'final_price',
                             '<='
                         )
