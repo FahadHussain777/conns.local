@@ -129,7 +129,9 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
                 if($to == '*') {
                     $to = $this->getMax();
                 }
+
                 $to -= self::PRICE_DELTA;
+
                 // Improved price ranges
                 if($from >= $to){
                     if($i>0){
@@ -170,7 +172,9 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $fromPrice = empty($fromPrice) ? 0 : $fromPrice * $this->getCurrencyRate();
         $toPrice = empty($toPrice) ? $toPrice : $toPrice * $this->getCurrencyRate();
         $formattedFromPrice = $this->priceCurrency->format($fromPrice);
-        if ($toPrice === '') {
+        $maxValue = $this->getMax();
+        $maxValue -= self::PRICE_DELTA;
+        if ($toPrice === $maxValue ) {
             return __('%1 and above', $formattedFromPrice);
         } elseif ($fromPrice == $toPrice && $this->dataProvider->getOnePriceIntervalValue()) {
             return $formattedFromPrice;
