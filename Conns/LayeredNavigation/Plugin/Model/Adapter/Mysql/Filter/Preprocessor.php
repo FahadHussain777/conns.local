@@ -48,7 +48,6 @@ class Preprocessor
                     $statements[] = implode(" AND ", $statement);
                 }
                 $query = implode(" OR ", $statements)." AND `price_index`.`customer_group_id` =".$this->customerSession->getCustomerGroupId();
-                //print_r($query);exit;
                 return $query;
             }
         }
