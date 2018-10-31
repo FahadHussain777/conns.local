@@ -5,14 +5,18 @@ namespace Conns\LayeredNavigation\Plugin\Model\Adapter\Mysql\Filter;
 use Conns\LayeredNavigation\Model\Url\Builder;
 use Magento\CatalogSearch\Model\Adapter\Mysql\Filter\Preprocessor as MagentoPreprocessor;
 use Magento\Framework\Search\Request\FilterInterface;
+use Magento\Framework\App\ObjectManager;
 
 class Preprocessor
 {
     protected $urlBuilder;
 
+    protected $customerSession;
+
     public function __construct(Builder $urlBuilder)
     {
         $this->urlBuilder = $urlBuilder;
+        $this->customerSession = ObjectManager::getInstance()->get(\Magento\Customer\Model\Session::class);
     }
 
     public function aroundProcess(
@@ -31,18 +35,20 @@ class Preprocessor
                     $statement = [
                         $this->getSqlStringByArray(
                             [(float)$from],
-                            'final_price',
+                            '`price_index`.`min_price`',
                             '>='
                         ),
                         $this->getSqlStringByArray(
-                            [(float)round($to)],
-                            'final_price',
+                            [(float) round($to)],
+                            '`price_index`.`min_price`',
                             '<='
                         )
                     ];
-                    $statements[] = '('.implode(" AND ", $statement).')';
+                    //$statements[] = '('.implode(" AND ", $statement).')';
+                    $statements[] = implode(" AND ", $statement);
                 }
-                return implode(" OR ", $statements);
+                $query = implode(" OR ", $statements)." AND `price_index`.`customer_group_id` =".$this->customerSession->getCustomerGroupId();
+                return $query;
             }
         }
         if($filter->getField() === 'category_ids'){
