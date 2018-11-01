@@ -15,7 +15,7 @@ use Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory;
 use Conns\LayeredNavigation\Model\Url\Builder;
 use Conns\LayeredNavigation\Model\Layer\ItemCollectionProvider;
 
-class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
+class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
 {
     const PRICE_DELTA = 0.01;
     protected $dataProvider;
@@ -23,6 +23,7 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
     protected $collectionProvider;
     protected $emptyCollection;
     protected $priceCurrency;
+    protected $_requestVar;
 
     public function __construct(
         ItemFactory $filterItemFactory,
@@ -56,6 +57,7 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $this->urlBuilder = $urlBuilder;
         $this->collectionProvider = $collectionProvider;
         $this->priceCurrency = $priceCurrency;
+        $this->_requestVar = 'monthly_payment';
     }
     public function apply(\Magento\Framework\App\RequestInterface $request){
         $this->applyToCollection($this->getLayer()->getProductCollection(), true);
