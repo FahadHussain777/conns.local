@@ -27,10 +27,11 @@ class Preprocessor
         $query
     ){
         if($filter->getField() === 'price'){
-            $values = $this->urlBuilder->getValuesFromUrl('price');
-            if(!empty($values)){
+            $price = $this->urlBuilder->getValuesFromUrl('price');
+            $monthlypayment = $this->urlBuilder->getValuesFromUrl('monthly_payment');
+            if(!empty($price)){
                 $statements = [];
-                foreach ($values as $value) {
+                foreach ($price as $value) {
                     list($from, $to) = explode("-", $value);
                     $statement = [
                         $this->getSqlStringByArray(
@@ -49,6 +50,15 @@ class Preprocessor
                 }
                 $query = implode(" OR ", $statements)." AND `price_index`.`customer_group_id` =".$this->customerSession->getCustomerGroupId();
                 return $query;
+            }
+            if(!empty($monthlypayment)){
+                $statements = [];
+                foreach ($monthlypayment as $value){
+                    list($from,$to) = explode('-',$value);
+                    $statement = $this->getMonthlyPaymentQuery($from,$to);
+                    $statements[] = implode(" AND ", $statement);
+                }
+                return implode(" OR ", $statements);
             }
         }
         if($filter->getField() === 'category_ids'){
@@ -78,5 +88,10 @@ class Preprocessor
             }
         }
         return implode(' '.$rule.' ', $statements);
+    }
+
+    private function getMonthlyPaymentQuery($from,$to){
+         $query = array(0=>"search_index.entity_id IN (select entity_id from  (SELECT `e`.`entity_id`, `main_table`.`value` AS `monthly_payment` FROM `catalog_product_entity` AS `e` INNER JOIN `catalog_product_index_eav_decimal` AS `main_table` ON main_table.entity_id = e.entity_id WHERE ((main_table.attribute_id = '202') AND (main_table.store_id = '1')) AND (e.created_in <= 1) AND (e.updated_in > 1) HAVING (`monthly_payment` >= '".$from."' AND `monthly_payment` <= '".$to."')) as filter )");
+         return $query;
     }
 }

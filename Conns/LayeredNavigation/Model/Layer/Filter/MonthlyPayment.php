@@ -13,7 +13,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory;
 use Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory;
 use Conns\LayeredNavigation\Model\Url\Builder;
-use Conns\LayeredNavigation\Model\Layer\ItemCollectionProvider;
+use Conns\LayeredNavigation\Model\Layer\MonthlyPaymentCollectionProvider;
 
 class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
 {
@@ -37,7 +37,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         AlgorithmFactory $algorithmFactory,
         PriceFactory $dataProviderFactory,
         Builder $urlBuilder,
-        ItemCollectionProvider $collectionProvider,
+        MonthlyPaymentCollectionProvider $collectionProvider,
         array $data = [])
     {
         parent::__construct(
@@ -85,10 +85,23 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         return $this;
     }
     public function getMax(){
-        return $this->getCollectionWithoutFilter()->getMaxPrice();
+        $collection = $this->getCollectionWithoutFilter();
+        $values = $collection->getAllAttributeValues('monthly_payment');
+        $max = [];
+        foreach ($values as $value){
+            $max[] = $value[0];
+        }
+        return max($max);
+
     }
     public function getMin(){
-        return $this->getCollectionWithoutFilter()->getMinPrice();
+        $collection = $this->getCollectionWithoutFilter();
+        $values = $collection->getAllAttributeValues('monthly_payment');
+        $max = [];
+        foreach ($values as $value){
+            $max[] = $value[0];
+        }
+        return min($max);
     }
     protected function getTo($from){
         $to = '';
@@ -110,7 +123,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         $attribute = $this->getAttributeModel();
         $productCollection = $this->getLayer()->getProductCollection();
-        $facets = $this->getCollectionWithoutFilter()->getFacetedData($attribute->getAttributeCode());
+        $facets = $this->getCollectionWithoutFilter()->getFacetedData($attribute->getAttributeCode(),$this->getMin(),$this->getMax());
         $data = [];
         if(!empty($facets)){
             $i=0;
