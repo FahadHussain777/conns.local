@@ -24,6 +24,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
     protected $emptyCollection;
     protected $priceCurrency;
     protected $_requestVar;
+    protected $priceAlgorithm;
 
     public function __construct(
         ItemFactory $filterItemFactory,
@@ -57,6 +58,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $this->urlBuilder = $urlBuilder;
         $this->collectionProvider = $collectionProvider;
         $this->priceCurrency = $priceCurrency;
+        $this->priceAlgorithm = $priceAlgorithm;
         $this->_requestVar = 'monthly_payment';
     }
     public function apply(\Magento\Framework\App\RequestInterface $request){
@@ -75,33 +77,44 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
                 $this->getLayer()->getState()->addFilter($this->_createItem($label, $value));
             }
         }
+        list($from, $blank) = explode("-", $values[0]);
+        list($blank, $to) = explode("-", $values[count($values)-1]);
         $collection->addFieldToFilter(
-            'price',
+            'monthly_payment',
             [
-                'from' => $this->getMin(),
-                'to' => $this->getMax()
+                'from' => $from,
+                'to' => (float) $to
             ]
         );
         return $this;
     }
     public function getMax(){
         $collection = $this->getCollectionWithoutFilter();
-        $values = $collection->getAllAttributeValues('monthly_payment');
-        $max = [];
-        foreach ($values as $value){
-            $max[] = $value[0];
+        $collection->addAttributeToSelect('monthly_payment');
+        $data = [];
+        foreach ($collection as $product){
+            if($product->getData('monthly_payment') !== null){
+                $data[] = $product->getData('monthly_payment');
+            }
         }
-        return max($max);
-
+        if(empty($data)){
+            return false;
+        }
+        return max($data);
     }
     public function getMin(){
         $collection = $this->getCollectionWithoutFilter();
-        $values = $collection->getAllAttributeValues('monthly_payment');
-        $max = [];
-        foreach ($values as $value){
-            $max[] = $value[0];
+        $collection->addAttributeToSelect('monthly_payment');
+        $data = [];
+        foreach ($collection as $product){
+            if($product->getData('monthly_payment') !== null){
+                $data[] = $product->getData('monthly_payment');
+            }
         }
-        return min($max);
+        if(empty($data)){
+            return false;
+        }
+        return min($data);
     }
     protected function getTo($from){
         $to = '';
@@ -139,22 +152,6 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
                     $to = $this->getMax();
                 }
 
-                $to -= self::PRICE_DELTA;
-
-                // Improved price ranges
-                if($from >= $to){
-                    if($i>0){
-                        if($from >= $data[$i-1]['to']){
-                            $merged = $data[$i-1];
-                            $merged['count'] += $aggregation['count'];
-                            $merged['to'] = $from;
-                            $merged['value'] = $merged['from'].'-'.$merged['to'];
-                            $merged['label'] = $this->_renderRangeLabel($merged['from'], $merged['to']);
-                            $data[$i-1] = $merged;
-                        }
-                    }
-                    continue;
-                }
                 $item = [
                     'label' => $this->_renderRangeLabel($from, $to),
                     'value' => $from.'-'.$to,
@@ -183,9 +180,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $formattedFromPrice = $this->priceCurrency->format($fromPrice);
         $maxValue = $this->getMax();
         $maxValue -= self::PRICE_DELTA;
-        if ($toPrice === $maxValue ) {
-            return __('%1 and above', $formattedFromPrice);
-        } elseif ($fromPrice == $toPrice && $this->dataProvider->getOnePriceIntervalValue()) {
+        if ($fromPrice == $toPrice && $this->dataProvider->getOnePriceIntervalValue()) {
             return $formattedFromPrice;
         } else {
             return __('%1 - %2', $formattedFromPrice, $this->priceCurrency->format($toPrice));
@@ -200,7 +195,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
             $this->emptyCollection->updateSearchCriteriaBuilder();
             $this->getLayer()->prepareProductCollection($this->emptyCollection);
             foreach ($productCollection->getAddedFilters() as $field => $condition) {
-                if ($this->getAttributeModel()->getAttributeCode() == $field) {
+                if ($this->getAttributeModel()->getAttributeCode() === $field) {
                     continue;
                 }
                 $this->emptyCollection->addFieldToFilter($field, $condition);
