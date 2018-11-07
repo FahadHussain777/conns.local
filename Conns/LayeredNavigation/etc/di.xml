@@ -5,6 +5,7 @@
             <argument name="filters" xsi:type="array">
                 <item name="attribute" xsi:type="string">Conns\LayeredNavigation\Model\Layer\Filter\Attribute</item>
                 <item name="price" xsi:type="string">Conns\LayeredNavigation\Model\Layer\Filter\Price</item>
+                <item name="monthly_payment" xsi:type="string">Conns\LayeredNavigation\Model\Layer\Filter\MonthlyPayment</item>
                 <item name="decimal" xsi:type="string">Conns\LayeredNavigation\Model\Layer\Filter\Decimal</item>
                 <item name="category" xsi:type="string">Conns\LayeredNavigation\Model\Layer\Filter\Category</item>
             </argument>
@@ -50,6 +51,9 @@
     </type>
     <type name="Magento\CatalogSearch\Model\Adapter\Aggregation\Checker\Query\CatalogView">
         <plugin name="categoryAggregation" type="Conns\LayeredNavigation\Plugin\Model\Adapter\Aggregation\Checker\Query\CatalogView" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Model\Layer\FilterList">
+        <plugin name="filterlist_getfilter" type="Conns\LayeredNavigation\Plugin\Model\Layer\FilterList" sortOrder="1" />
     </type>
     <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered" type="Conns\LayeredNavigation\Block\Swatches\LayeredNavigation\RenderLayered" />
 </config>
