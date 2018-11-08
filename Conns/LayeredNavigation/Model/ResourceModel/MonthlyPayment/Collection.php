@@ -37,19 +37,35 @@ class Collection extends \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Col
         return parent::_prepareStatisticsData();
     }
 
-    public function getFacetedData($field,$min=0,$max=0)
+    public function getFacetedData($field,$all=[])
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $scopeConfig = $objectManager->create(\Magento\Framework\App\Config\ScopeConfigInterface::class);
+        if(empty($all)){
+            return false;
+        }
         $interval = $this->_scopeConfig->getValue(self::XML_PATH_MONTHLY_PAYMENT_INTERVAL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if(!isset($interval)){
             $interval = 25;
         }
         $data= [];
-        $result = parent::getFacetedData($field);
-        foreach ($result as $key => $value){
-            $data[$result[$key]['value']]['value'] = $result[$key]['value'];
-            $data[$result[$key]['value']]['count'] = $result[$key]['count'];
+        sort($all);
+        foreach ($all as $key=>$value){
+            $all[$key] = ceil($value);
+        }
+        $max = max($all);
+        $from = 0;
+        $to = $interval;
+        while($to <= $max+$interval){
+            $bucket = array_filter(
+                $all,
+                function ($value) use($from,$to) {
+                    return ($value >= $from && $value <= ($to-1));
+                }
+            );
+            if(!empty($bucket)){
+                    $data[$from.'_'.($to-1)] = ['value' => $from.'_'.($to-1), 'count' => count($bucket)];
+            }
+            $from += $interval;
+            $to += $interval;
         }
         return $data;
     }
