@@ -91,7 +91,10 @@ class Preprocessor
     }
 
     private function getMonthlyPaymentQuery($from,$to){
-         $query = array(0=>"search_index.entity_id IN (select entity_id from  (SELECT `e`.`entity_id`, `main_table`.`value` AS `monthly_payment` FROM `catalog_product_entity` AS `e` INNER JOIN `catalog_product_index_eav_decimal` AS `main_table` ON main_table.entity_id = e.entity_id WHERE ((main_table.attribute_id = '202') AND (main_table.store_id = '1')) AND (e.created_in <= 1) AND (e.updated_in > 1) HAVING (`monthly_payment` >= '".$from."' AND `monthly_payment` <= '".$to."')) as filter )");
-         return $query;
+        if($from ===0){
+            $from=1;
+        }
+        $query = array(0=>"search_index.entity_id IN (select entity_id from  (SELECT `e`.`entity_id`, `main_table`.`value` AS `monthly_payment` FROM `catalog_product_entity` AS `e` INNER JOIN `catalog_product_index_eav_decimal` AS `main_table` ON main_table.entity_id = e.entity_id WHERE ((main_table.attribute_id = '202') AND (main_table.store_id = '1')) AND (e.created_in <= 1) AND (e.updated_in > 1) HAVING (`monthly_payment` >= '".($from-0.9)."' AND `monthly_payment` <= '".$to."')) as filter )");
+        return $query;
     }
 }

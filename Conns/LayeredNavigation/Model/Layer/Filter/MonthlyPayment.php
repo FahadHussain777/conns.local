@@ -82,11 +82,25 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $collection->addFieldToFilter(
             'monthly_payment',
             [
-                'from' => $from,
+                'from' => $from-0.9,
                 'to' => (float) $to
             ]
         );
         return $this;
+    }
+    public function getAllPaymentValues(){
+        $collection = $this->getCollectionWithoutFilter();
+        $collection->addAttributeToSelect('monthly_payment');
+        $data = [];
+        foreach ($collection as $product){
+            if($product->getData('monthly_payment') !== null){
+                $data[] = $product->getData('monthly_payment');
+            }
+        }
+        if(empty($data)){
+            return false;
+        }
+        return $data;
     }
     public function getMax(){
         $collection = $this->getCollectionWithoutFilter();
@@ -136,7 +150,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         $attribute = $this->getAttributeModel();
         $productCollection = $this->getLayer()->getProductCollection();
-        $facets = $this->getCollectionWithoutFilter()->getFacetedData($attribute->getAttributeCode(),$this->getMin(),$this->getMax());
+        $facets = $this->getCollectionWithoutFilter()->getFacetedData($attribute->getAttributeCode(),$this->getAllPaymentValues());
         $data = [];
         if(!empty($facets)){
             $i=0;
