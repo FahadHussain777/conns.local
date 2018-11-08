@@ -125,21 +125,6 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
                 }
 
                 $to -= self::PRICE_DELTA;
-
-                // Improved price ranges
-                if($from >= $to){
-                    if($i>0){
-                        if($from >= $data[$i-1]['to']){
-                            $merged = $data[$i-1];
-                            $merged['count'] += $aggregation['count'];
-                            $merged['to'] = $from;
-                            $merged['value'] = $merged['from'].'-'.$merged['to'];
-                            $merged['label'] = $this->_renderRangeLabel($merged['from'], $merged['to']);
-                            $data[$i-1] = $merged;
-                        }
-                    }
-                    continue;
-                }
                 $item = [
                     'label' => $this->_renderRangeLabel($from, $to),
                     'value' => $from.'-'.$to,
