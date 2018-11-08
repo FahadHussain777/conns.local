@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 10/23/18
- * Time: 5:51 PM
- */
 
 namespace Conns\LayeredNavigation\Model\ResourceModel\Fulltext;
 use Magento\Framework\App\ObjectManager;

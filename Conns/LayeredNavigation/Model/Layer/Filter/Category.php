@@ -108,6 +108,7 @@ class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
             return $this;
         }
         $collection->addCategoriesFilter(['in' => $values]);
+
         return $this;
     }
     private function getOptionItemsCount($faceted, $key){

@@ -56,4 +56,9 @@
         <plugin name="filterlist_getfilter" type="Conns\LayeredNavigation\Plugin\Model\Layer\FilterList" sortOrder="1" />
     </type>
     <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered" type="Conns\LayeredNavigation\Block\Swatches\LayeredNavigation\RenderLayered" />
+    <!--<type name="Conns\LayeredNavigation\Model\Layer\Filter\MonthlyPayment">-->
+        <!--<arguments>-->
+            <!--<argument name="dataProviderFactory" xsi:type="object">Conns\LayeredNavigation\Model\Layer\Filter\DataProvider\MonthlyPaymentFactory</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
 </config>
