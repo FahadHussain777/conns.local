@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Aheadworks\Layerednav\Block\Navigation\FilterRenderer">
+        <plugin name="aw_layerednav_filter_renderer" type="Aheadworks\Layerednav\Model\Plugin\FilterRenderer" sortOrder="1" />
+    </type>
+    <type name="Aheadworks\Layerednav\Model\Layer\Filter\Price">
+        <arguments>
+            <argument name="algorithmFactory" xsi:type="object">Aheadworks\Layerednav\Model\Layer\Filter\Dynamic\AlgorithmFactory</argument>
+        </arguments>
+    </type>
+    <virtualType name="Aheadworks\Layerednav\Model\Layer\Filter\Dynamic\AlgorithmFactory" type="Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Aheadworks\Layerednav\Model\Layer\Filter\Dynamic\Auto</item>
+                <!--
+                Automatic (equalize product counts) price step calculation algorithm isn't supported,
+                because it is contrary to the logic module
+                 -->
+                <item name="improved" xsi:type="string">Aheadworks\Layerednav\Model\Layer\Filter\Dynamic\Auto</item>
+                <item name="manual" xsi:type="string">Aheadworks\Layerednav\Model\Layer\Filter\Dynamic\Manual</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

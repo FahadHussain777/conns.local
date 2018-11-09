@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <aw_layerednav>
+            <general>
+                <enable_ajax>0</enable_ajax>
+                <display_stock>1</display_stock>
+                <display_sales>1</display_sales>
+                <display_new>1</display_new>
+                <disable_popover>1</disable_popover>
+                <enable_price_slider>0</enable_price_slider>
+            </general>
+        </aw_layerednav>
+    </default>
+</config>

@@ -1,0 +1,36 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+/* @var $block \Aheadworks\Layerednav\Block\Navigation\FilterRenderer */
+
+// @codingStandardsIgnoreFile
+?>
+<ol class="items">
+    <?php /** @var \Magento\Catalog\Model\Layer\Filter\Item[] $filterItems */ ?>
+    <?php foreach ($filterItems as $filterItem): ?>
+        <?php
+            $requestVar = $filterItem->getFilter()->getRequestVar();
+            $value = $filterItem->getValue();
+            $htmlId = 'aw-filter-option-' . $requestVar . '-' . $value;
+        ?>
+        <li class="item">
+            <input
+                id="<?php /* @noEscape */ echo $htmlId ?>"
+                type="checkbox"
+                name="<?php /* @noEscape */ echo $requestVar ?>"
+                value ="<?php /* @noEscape */ echo $value ?>"
+                <?php if ($block->isActiveItem($filterItem)) { /* @noEscape */ echo 'checked'; }?>
+                <?php if (!$filterItem->getCount() && !$block->isActiveItem($filterItem)) { /* @noEscape */ echo 'disabled'; } ?>
+                data-mage-init='{"awLayeredNavFilterItem": {}}'
+                data-role="aw-layered-nav-filter-item"
+                />
+            <label for="<?php /* @noEscape */ echo $htmlId ?>"><?php /* @noEscape */ echo __($filterItem->getLabel()) ?></label>
+            <?php if ($block->isNeedToShowProductsCount($filterItem)): ?>
+                <span class="count"><?php /* @noEscape */ echo $filterItem->getCount(); ?></span>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+</ol>

@@ -1,7 +1,7 @@
 <?php
 ?>
 <?php if ($block->canShowBlock()): ?>
-    <div class="block filter" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
+    <div class="block filter" id="layered-filter-block" >
         <?php $filtered = count($block->getLayer()->getState()->getFilters()) ?>
         <div class="block-title filter-title" data-count="<?= /* @escapeNotVerified */ $filtered ?>">
             <strong data-role="title"><?= /* @escapeNotVerified */ __('Shop By') ?></strong>
@@ -18,12 +18,12 @@
             <?php foreach ($block->getFilters() as $filter):?>
         <?php if ($filter->getItemsCount()): ?>
         <?php if (!$wrapOptions): ?>
-            <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?= /* @escapeNotVerified */ __('Shopping Options') ?></strong>
-            <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
+            <strong class="block-subtitle filter-subtitle"><?= /* @escapeNotVerified */ __('Shopping Options') ?></strong>
+            <div class="filter-options" id="narrow-by-list" >
                 <?php  $wrapOptions = true; endif; ?>
-                <div data-role="collapsible" class="filter-options-item">
-                    <div data-role="title" class="filter-options-title"><?= /* @escapeNotVerified */ __($filter->getName()) ?></div>
-                    <div data-role="content" class="filter-options-content"><?= /* @escapeNotVerified */ $block->getChildBlock('renderer')->render($filter) ?></div>
+                <div class="filter-options-item">
+                    <div class="filter-options-title"><?= /* @escapeNotVerified */ __($filter->getName()) ?></div>
+                    <div class="filter-options-content"><?= /* @escapeNotVerified */ $block->getChildBlock('renderer')->render($filter) ?></div>
                 </div>
                 <?php endif; ?>
                 <?php endforeach; ?>

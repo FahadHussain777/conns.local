@@ -1,0 +1,89 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+/* @var $block \Aheadworks\Layerednav\Block\Navigation */
+
+// @codingStandardsIgnoreFile
+?>
+<div id="layered-filter-block"
+     class="block filter"
+     data-role="filter-block"
+     data-mage-init='{"collapsible":{
+            "openedState": "active",
+            "collapsible": true,
+            "active": false,
+            "collateral": {
+                "openedState": "filter-active",
+                "element": "body"
+            }
+         }}'>
+    <div class="block-title filter-title">
+        <strong data-role="title"><?php /* @escapeNotVerified */ echo __('Shop By') ?></strong>
+    </div>
+    <div id="aw-layered-nav-popup"
+         class="aw-layered-nav-popover aw-layered-nav-popover"
+         data-role="aw-layered-nav-popover"
+         data-mage-init='{"awLayeredNavPopover": {
+                "filtersContainer": "#layered-filter-block",
+                "isPopoverDisabled": <?php /* @noEscape */ echo \Zend_Json::encode($block->isPopoverDisabled()) ?>,
+                "hasActiveFilters": <?php /* @noEscape */ echo \Zend_Json::encode($block->hasActiveFilters()) ?>}}'>
+        <div class="aw-layered-nav-popover__content">
+            <div id="aw-layered-nav-popover__items" data-role="items-count-container" class="aw-layered-nav-popover__items"></div>
+            <div class="aw-layered-nav-popover__loader"><div class="aw-layered-nav-popover__loader-itself"></div></div>
+            <div class="aw-layered-nav-popover__action">
+                <button data-role="show-button" class="action primary show-button"><?php /* @escapeNotVerified */ echo __('Show');?></button>
+            </div>
+        </div>
+    </div>
+    <div class="block-content filter-content">
+        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?php /* @escapeNotVerified */ echo __('Shopping Options') ?></strong>
+        <div class="filter-options" id="narrow-by-list">
+            <?php foreach ($block->getFilters() as $filter): ?>
+                <?php if ($filter->getItemsCount()): ?>
+                    <div class="filter-options-item<?php if ($block->getPageLayout() != '1column'): ?> active<?php endif; ?>"
+                         data-mage-init='{"awLayeredNavCollapse": {}}'>
+                        <div data-role="title" class="filter-options-title"><?php echo $block->escapeHtml(__($filter->getName())) ?><span class="arrow"></span></div>
+                        <div data-role="content" class="filter-options-content"><?php /* @noEscape */ echo $block->getChildBlock('renderer')->render($filter); ?></div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <div class="button-list aw-layered-nav-popover__action"
+                 data-role="aw-layered-nav-actions"
+                 data-mage-init='{"awLayeredNavFilterActions": {}}'>
+                <button data-role="clear-button"
+                        class="action primary clear-button"
+                        <?php if (!$block->hasActiveFilters()): ?> disabled<?php endif; ?>><?php /* @escapeNotVerified */ echo __('Clear All');?></button>
+                <?php if (!$block->isPopoverDisabled()): ?>
+                <button data-role="show-button"
+                        class="action primary show-button<?php if (!$block->hasActiveFilters()): ?> disabled<?php endif; ?>"><?php /* @escapeNotVerified */ echo __('Show');?></button>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    require([
+        'jquery',
+        'Aheadworks_Layerednav/js/filter/request/bridge',
+    <?php if ($block->isAjaxEnabled()): ?>
+        'Aheadworks_Layerednav/js/filter/request/executor/ajax',
+    <?php else: ?>
+        'Aheadworks_Layerednav/js/filter/request/executor/location',
+    <?php endif; ?>
+        'Aheadworks_Layerednav/js/filter/data/source/ajax',
+        'Aheadworks_Layerednav/js/product-list/pager'
+    ], function ($, requestBridge, executor, ajaxDataSource) {
+        requestBridge.init({executor: executor});
+        ajaxDataSource.init({
+            url: '<?php echo $block->escapeUrl($block->getItemsCountUrl()) ?>',
+            pageType: '<?php /* @noEscape */ echo $block->getPageType() ?>',
+            categoryId: '<?php /* @noEscape */ echo $block->getCategoryId() ?>',
+            searchQueryText: '<?php /* @noEscape */ echo $block->escapeQuote($block->getSearchQueryText()) ?>'
+        });
+        $('.pages').awLayeredNavPager({});
+    });
+</script>
