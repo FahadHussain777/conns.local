@@ -208,12 +208,12 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
             );
             $this->emptyCollection->updateSearchCriteriaBuilder();
             $this->getLayer()->prepareProductCollection($this->emptyCollection);
-            foreach ($productCollection->getAddedFilters() as $field => $condition) {
-                if ($this->getAttributeModel()->getAttributeCode() === $field) {
-                    continue;
-                }
-                $this->emptyCollection->addFieldToFilter($field, $condition);
-            }
+//            foreach ($productCollection->getAddedFilters() as $field => $condition) {
+//                if ($this->getAttributeModel()->getAttributeCode() === $field) {
+//                    continue;
+//                }
+//                $this->emptyCollection->addFieldToFilter($field, $condition);
+//            }
         }
         return $this->emptyCollection;
     }
