@@ -1,0 +1,13 @@
+<?php
+$helper = $block->getCompareHelper();
+?>
+<input type="checkbox" class="status"/>
+<a
+   class="connstocompare compare-<?php /* @escapeNotVerified */ echo $block->getProduct()->getId() ?>"
+   href="javascript:void(0)"
+   title="<?php echo $block->escapeHtml(__('Compare')); ?>"
+   aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+   data-compare='<?php /* @escapeNotVerified */ echo $helper->getCompareData($block->getProduct()); ?>'
+   role="button">
+    <span><?php /* @escapeNotVerified */ echo __('Compare') ?></span>
+</a>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceBlock name="category.product.addto">
+                <block class="Conns\ProductCompare\Block\Product\ProductList\Item\AddTo\Compare"
+                       name="conns.category.product.addto.compare" as="conns.compare"
+                       template="Conns_ProductCompare::product/list/addto/compare.phtml"/>
+            </referenceBlock>
+            <referenceBlock name="category.product.addto.compare" remove="true" />
+        </referenceContainer>
+        <move element="catalog.compare.sidebar" destination="category.product.list.additional" before="-"/>
+    </body>
+</page>
