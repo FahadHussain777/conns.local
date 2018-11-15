@@ -40,7 +40,7 @@ class AddImageToCompare
                 $data['remove_url'][$item->getId()] = $this->connsHelper->getAjaxPostDataRemove($product);
                 $data['image_url'][$item->getId()] = $imageHelper->init($product, 'product_thumbnail_image')->getUrl();
                 $data['small_image_url'][$item->getId()] = $imageHelper->init($product, 'product_thumbnail_image')->resize(25)->getUrl();
-                $data['price'][$item->getId()] = $product->getPriceInfo()->getPrice('final_price')->getValue();;
+                $data['price'][$item->getId()] = '<strong>$'.number_format($product->getPriceInfo()->getPrice('final_price')->getValue(),2).'</strong>';
             } catch (\Exception $ex) {
                 $data['image_url'][$item->getId()] = $imageHelper->getDefaultPlaceholderUrl();
             }

@@ -1,7 +1,16 @@
 <?php
 $helper = $block->getCompareHelper();
 ?>
-<input type="checkbox" class="status"/>
+<div class="compare-button-container no-display" data-bind="scope: 'compareProducts'">
+    <!-- ko if: compareProducts().count > 1 -->
+    <div>
+        <a href="<?=$block->escapeHtml($helper->getListUrl())?>" class="action compare primary">
+            <span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span>
+        </a>
+    </div>
+    <!-- /ko -->
+</div>
+<input type="checkbox" class="comparestatus" />
 <a
    class="connstocompare compare-<?php /* @escapeNotVerified */ echo $block->getProduct()->getId() ?>"
    href="javascript:void(0)"
@@ -11,3 +20,7 @@ $helper = $block->getCompareHelper();
    role="button">
     <span><?php /* @escapeNotVerified */ echo __('Compare') ?></span>
 </a>
+<style type="text/css">
+    .connstocompare.active { visibility: hidden }
+    .compare-button-container.no-display { visibility:hidden }
+</style>
