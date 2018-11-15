@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="conns" translate="label" sortOrder="1000">
+            <label>Conns</label>
+        </tab>
+        <section id="connsrefineby" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Refine By</label>
+            <tab>conns</tab>
+            <resource>Conns_RefineBy::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Refine By Configuration</label>
+                <field id="price_interval" type="text" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Monthly payments cost Interval</label>
+                    <config_path>connsrefineby/general/price_interval</config_path>
+                    <validate>validate-number</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

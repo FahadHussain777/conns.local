@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Price</item>
+                <item name="monthly_payment" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\MonthlyPayment</item>
+                <item name="decimal" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="searchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\CatalogSearch\Model\Layer\Search\Context" type="Magento\Catalog\Model\Layer\Search\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Conns\RefineBy\Model\Layer\ItemCollectionProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\CatalogSearch\Model\Layer\Category\Context" type="Magento\Catalog\Model\Layer\Category\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Conns\RefineBy\Model\Layer\ItemCollectionProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="categoryViewContext" type="Magento\Framework\View\Element\Template\Context">
+        <arguments>
+            <argument name="urlBuilder" xsi:type="object">Conns\RefineBy\Model\Url\Builder</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Filter\Preprocessor">
+        <plugin name="multiple_category_ids" type="Conns\RefineBy\Plugin\Model\Adapter\Mysql\Filter\Preprocessor" sortOrder="1" />
+    </type>
+    <type name="Conns\RefineBy\Model\Layer\Filter\Item">
+        <arguments>
+            <argument name="url" xsi:type="object">Conns\RefineBy\Model\Url\Builder</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Filter\ItemFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Item</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Adapter\Aggregation\Checker\Query\CatalogView">
+        <plugin name="categoryAggregation" type="Conns\RefineBy\Plugin\Model\Adapter\Aggregation\Checker\Query\CatalogView" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Model\Layer\FilterList">
+        <plugin name="filterlist_getfilter" type="Conns\RefineBy\Plugin\Model\Layer\FilterList" sortOrder="1" />
+    </type>
+    <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered" type="Conns\RefineBy\Block\Swatches\RefineBy\RenderLayered" />
+</config>
