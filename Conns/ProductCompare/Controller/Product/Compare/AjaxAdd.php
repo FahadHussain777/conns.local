@@ -62,6 +62,15 @@ class AjaxAdd extends \Magento\Catalog\Controller\Product\Compare
             return $resultJson->setData($result);
         }
 
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare');
+        if($helper->getItemCollection()->count() >= 5){
+            $result = [
+                'success' => false,
+                'error_reason' => 'invalid_form_key',
+                'error_message' => __('Cant add more than 5 items to compare.')
+            ];
+            return $resultJson->setData($result);
+        }
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId && ($this->_customerVisitor->getId() || $this->_customerSession->isLoggedIn())) {
             $storeId = $this->_storeManager->getStore()->getId();
@@ -79,7 +88,7 @@ class AjaxAdd extends \Magento\Catalog\Controller\Product\Compare
                 );
             }
 
-            $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
+            $helper->calculate();
         }
 
         return $resultJson->setData($result);
