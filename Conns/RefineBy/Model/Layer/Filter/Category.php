@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 namespace Conns\RefineBy\Model\Layer\Filter;
 
 use Magento\Framework\App\ObjectManager;
@@ -14,13 +15,41 @@ use Conns\RefineBy\Model\Url\Builder;
 use Conns\RefineBy\Model\Layer\ItemCollectionProvider;
 
 
+/**
+ * Class Category
+ * @package Conns\RefineBy\Model\Layer\Filter
+ */
 class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
 {
+    /**
+     * @var Escaper
+     */
     protected $escaper;
+    /**
+     * @var
+     */
     protected $dataProvider;
+    /**
+     * @var Builder
+     */
     protected $urlBuilder;
+    /**
+     * @var ItemCollectionProvider
+     */
     protected $collectionProvider;
 
+    /**
+     * Category constructor.
+     * @param ItemFactory $filterItemFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Layer $layer
+     * @param DataBuilder $itemDataBuilder
+     * @param Escaper $escaper
+     * @param CategoryFactory $categoryDataProviderFactory
+     * @param Builder $urlBuilder
+     * @param ItemCollectionProvider $collectionProvider
+     * @param array $data
+     */
     public function __construct(
         ItemFactory $filterItemFactory,
         StoreManagerInterface $storeManager,
@@ -47,6 +76,10 @@ class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
         $this->collectionProvider = $collectionProvider;
     }
 
+    /**
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return $this|\Magento\CatalogSearch\Model\Layer\Filter\Category
+     */
     public function apply(\Magento\Framework\App\RequestInterface $request){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         if (!$values) {
@@ -70,6 +103,10 @@ class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
         }
         return $this;
     }
+
+    /**
+     * @return array
+     */
     protected function _getItemsData(){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         $productCollection = $this->getLayer()->getProductCollection();
@@ -102,6 +139,11 @@ class Category extends \Magento\CatalogSearch\Model\Layer\Filter\Category
         }
         return $this->itemDataBuilder->build();
     }
+
+    /**
+     * @param $collection
+     * @return $this
+     */
     public function applyToCollection($collection){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         if (empty($values)) {

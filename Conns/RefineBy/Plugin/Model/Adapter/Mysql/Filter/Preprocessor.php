@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 namespace Conns\RefineBy\Plugin\Model\Adapter\Mysql\Filter;
 
 use Conns\RefineBy\Model\Url\Builder;
@@ -7,18 +9,40 @@ use Magento\CatalogSearch\Model\Adapter\Mysql\Filter\Preprocessor as MagentoPrep
 use Magento\Framework\Search\Request\FilterInterface;
 use Magento\Framework\App\ObjectManager;
 
+/**
+ * Class Preprocessor
+ * @package Conns\RefineBy\Plugin\Model\Adapter\Mysql\Filter
+ */
 class Preprocessor
 {
+    /**
+     * @var Builder
+     */
     protected $urlBuilder;
 
+    /**
+     * @var mixed
+     */
     protected $customerSession;
 
+    /**
+     * Preprocessor constructor.
+     * @param Builder $urlBuilder
+     */
     public function __construct(Builder $urlBuilder)
     {
         $this->urlBuilder = $urlBuilder;
         $this->customerSession = ObjectManager::getInstance()->get(\Magento\Customer\Model\Session::class);
     }
 
+    /**
+     * @param MagentoPreprocessor $subject
+     * @param \Closure $proceed
+     * @param FilterInterface $filter
+     * @param $isNegation
+     * @param $query
+     * @return mixed|string
+     */
     public function aroundProcess(
         MagentoPreprocessor  $subject,
         \Closure $proceed,
@@ -75,6 +99,13 @@ class Preprocessor
         return $proceed($filter, $isNegation, $query);
     }
 
+    /**
+     * @param array $array
+     * @param string $field
+     * @param string $operator
+     * @param string $rule
+     * @return string
+     */
     private function getSqlStringByArray(
         $array = [],
         $field = 'category_ids_index.category_id',
@@ -90,7 +121,12 @@ class Preprocessor
         return implode(' '.$rule.' ', $statements);
     }
 
-    private function getMonthlyPaymentQuery($from,$to){
+    /**
+     * @param $from
+     * @param $to
+     * @return array
+     */
+    private function getMonthlyPaymentQuery($from, $to){
         if($from ===0){
             $from=1;
         }

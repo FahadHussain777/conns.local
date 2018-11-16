@@ -1,3 +1,6 @@
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 var config = {
     map: {
         '*': {

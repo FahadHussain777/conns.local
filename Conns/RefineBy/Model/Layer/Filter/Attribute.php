@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 
 namespace Conns\RefineBy\Model\Layer\Filter;
 
@@ -11,14 +14,45 @@ use Magento\Framework\App\RequestInterface;
 use Conns\RefineBy\Model\Url\Builder;
 use Conns\RefineBy\Model\Layer\ItemCollectionProvider;
 
+/**
+ * Class Attribute
+ * @package Conns\RefineBy\Model\Layer\Filter
+ */
 class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
 {
+    /**
+     * @var StripTags
+     */
     protected $tagFilter;
+    /**
+     * @var Builder
+     */
     protected $urlBuilder;
+    /**
+     * @var RequestInterface
+     */
     protected $request;
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
+    /**
+     * @var ItemCollectionProvider
+     */
     protected $collectionProvider;
 
+    /**
+     * Attribute constructor.
+     * @param ItemFactory $filterItemFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Layer $layer
+     * @param DataBuilder $itemDataBuilder
+     * @param StripTags $tagFilter
+     * @param RequestInterface $request
+     * @param Builder $urlBuilder
+     * @param ItemCollectionProvider $collectionProvider
+     * @param array $data
+     */
     public function __construct(
         ItemFactory $filterItemFactory,
         StoreManagerInterface $storeManager,
@@ -45,6 +79,10 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
         $this->collectionProvider = $collectionProvider;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return $this|\Magento\CatalogSearch\Model\Layer\Filter\Attribute
+     */
     public function apply(RequestInterface $request)
     {
        $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
@@ -60,6 +98,10 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
         return $this;
     }
 
+    /**
+     * @param $collection
+     * @return $this
+     */
     public function applyToCollection($collection){
         $attribute = $this->getAttributeModel();
         $attributeValue = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
@@ -68,6 +110,10 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
         }
         $collection->addFieldToFilter($attribute->getAttributeCode(), array('in' => $attributeValue));
     }
+
+    /**
+     * @return array
+     */
     protected function _getItemsData(){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         $productCollection = $this->getLayer()->getProductCollection();
@@ -98,12 +144,23 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
         }
         return $this->itemDataBuilder->build();
     }
+
+    /**
+     * @param $faceted
+     * @param $key
+     * @return int
+     */
     private function getOptionItemsCount($faceted, $key){
         if(isset($faceted[$key]['count'])){
             return $faceted[$key]['count'];
         }
         return 0;
     }
+
+    /**
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     private function getFacetedData(){
         $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
         $collection->updateSearchCriteriaBuilder();
@@ -113,6 +170,10 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
         }
         return $collection->getFacetedData($this->getAttributeModel()->getAttributeCode());
     }
+
+    /**
+     * @return mixed
+     */
     private function getCurrentCategory(){
         return $this->getLayer()->getCurrentCategory();
     }

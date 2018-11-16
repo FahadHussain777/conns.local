@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 namespace Conns\RefineBy\Plugin\Model\Adapter\Aggregation\Checker\Query;
 
 use Magento\Framework\Search\RequestInterface;
@@ -9,9 +11,25 @@ use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\CatalogSearch\Model\Adapter\Aggregation\Checker\Query\CatalogView as MagentoCatalogView;
 
+/**
+ * Class CatalogView
+ * @package Conns\RefineBy\Plugin\Model\Adapter\Aggregation\Checker\Query
+ */
 class CatalogView {
+    /**
+     * @var CategoryRepositoryInterface
+     */
     private $categoryRepository;
+    /**
+     * @var StoreManagerInterface
+     */
     private $storeManager;
+
+    /**
+     * CatalogView constructor.
+     * @param CategoryRepositoryInterface $categoryRepository
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         CategoryRepositoryInterface $categoryRepository,
         StoreManagerInterface $storeManager
@@ -19,6 +37,13 @@ class CatalogView {
         $this->categoryRepository = $categoryRepository;
         $this->storeManager = $storeManager;
     }
+
+    /**
+     * @param MagentoCatalogView $subject
+     * @param \Closure $proceed
+     * @param RequestInterface $request
+     * @return bool|mixed
+     */
     public function aroundIsApplicable(
         MagentoCatalogView $subject,
         \Closure $proceed,
@@ -29,6 +54,11 @@ class CatalogView {
         }
         return $proceed($request);
     }
+
+    /**
+     * @param RequestInterface $request
+     * @return bool
+     */
     private function hasAnchorCategory(RequestInterface $request){
         $queryType = $request->getQuery()->getType();
         $result = false;
@@ -43,6 +73,11 @@ class CatalogView {
         }
         return $result;
     }
+
+    /**
+     * @param QueryInterface $queryExpression
+     * @return array
+     */
     private function getCategoriesFromQuery(QueryInterface $queryExpression){
         $categoryIds = $this->getCategoryIdsFromQuery($queryExpression);
         $categories = [];
@@ -54,6 +89,11 @@ class CatalogView {
         }
         return $categories;
     }
+
+    /**
+     * @param QueryInterface $queryExpression
+     * @return array
+     */
     private function getCategoryIdsFromQuery(QueryInterface $queryExpression){
         $queryFilterArray = [];
         $queryFilterArray[] = $queryExpression->getMust();

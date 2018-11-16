@@ -1,8 +1,12 @@
 <?php
-
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
 namespace Conns\RefineBy\Model\Layer\Filter;
 
 use Magento\Catalog\Model\Layer\Filter\ItemFactory;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Ui\DataProvider\Product\ProductCollection;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Layer\Filter\Item\DataBuilder;
@@ -15,17 +19,61 @@ use Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory;
 use Conns\RefineBy\Model\Url\Builder;
 use Conns\RefineBy\Model\Layer\MonthlyPaymentCollectionProvider;
 
+/**
+ * Class MonthlyPayment
+ * @package Conns\RefineBy\Model\Layer\Filter
+ */
 class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
 {
+    /**
+     * Decimal places precision
+     */
     const PRICE_DELTA = 0.01;
+    /**
+     * @var PriceFactory $dataProvider
+     */
     protected $dataProvider;
+    /**
+     * @var Builder
+     */
     protected $urlBuilder;
+    /**
+     * @var MonthlyPaymentCollectionProvider
+     */
     protected $collectionProvider;
+    /**
+     * @var ProductCollection
+     */
     protected $emptyCollection;
+    /**
+     * @var PriceCurrencyInterface
+     */
     protected $priceCurrency;
+    /**
+     * @var string
+     */
     protected $_requestVar;
+    /**
+     * @var Algorithm
+     */
     protected $priceAlgorithm;
 
+    /**
+     * MonthlyPayment constructor.
+     * @param ItemFactory $filterItemFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Layer $layer
+     * @param DataBuilder $itemDataBuilder
+     * @param FilterPrice $resource
+     * @param Session $customerSession
+     * @param Algorithm $priceAlgorithm
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param AlgorithmFactory $algorithmFactory
+     * @param PriceFactory $dataProviderFactory
+     * @param Builder $urlBuilder
+     * @param MonthlyPaymentCollectionProvider $collectionProvider
+     * @param array $data
+     */
     public function __construct(
         ItemFactory $filterItemFactory,
         StoreManagerInterface $storeManager,
@@ -61,10 +109,21 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $this->priceAlgorithm = $priceAlgorithm;
         $this->_requestVar = 'monthly_payment';
     }
+
+    /**
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return $this|\Magento\CatalogSearch\Model\Layer\Filter\Price
+     */
     public function apply(\Magento\Framework\App\RequestInterface $request){
         $this->applyToCollection($this->getLayer()->getProductCollection(), true);
         return $this;
     }
+
+    /**
+     * @param $collection
+     * @param bool $addFilter
+     * @return $this
+     */
     public function applyToCollection($collection, $addFilter = false){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         if (!$values){
@@ -88,6 +147,10 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         );
         return $this;
     }
+
+    /**
+     * @return array|bool
+     */
     public function getAllPaymentValues(){
         $collection = $this->getCollectionWithoutFilter();
         $collection->addAttributeToSelect('monthly_payment');
@@ -102,6 +165,10 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return $data;
     }
+
+    /**
+     * @return bool|mixed
+     */
     public function getMax(){
         $collection = $this->getCollectionWithoutFilter();
         $collection->addAttributeToSelect('monthly_payment');
@@ -116,6 +183,10 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return max($data);
     }
+
+    /**
+     * @return bool|mixed
+     */
     public function getMin(){
         $collection = $this->getCollectionWithoutFilter();
         $collection->addAttributeToSelect('monthly_payment');
@@ -130,6 +201,11 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return min($data);
     }
+
+    /**
+     * @param float $from
+     * @return float|string
+     */
     protected function getTo($from){
         $to = '';
         $interval = $this->dataProvider->getInterval();
@@ -138,6 +214,11 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return $to;
     }
+
+    /**
+     * @param float $from
+     * @return float|string
+     */
     protected function getFrom($from){
         $to = '';
         $interval = $this->dataProvider->getInterval();
@@ -146,6 +227,10 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return $to;
     }
+
+    /**
+     * @return array
+     */
     protected function _getItemsData(){
         $values = $this->urlBuilder->getValuesFromUrl($this->_requestVar);
         $attribute = $this->getAttributeModel();
@@ -188,6 +273,12 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
         return $this->itemDataBuilder->build();
     }
+
+    /**
+     * @param float|string $fromPrice
+     * @param float|string $toPrice
+     * @return float|\Magento\Framework\Phrase
+     */
     protected function _renderRangeLabel($fromPrice, $toPrice){
         $fromPrice = empty($fromPrice) ? 0 : $fromPrice * $this->getCurrencyRate();
         $toPrice = empty($toPrice) ? $toPrice : $toPrice * $this->getCurrencyRate();
@@ -200,6 +291,10 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
             return __('%1 - %2', $formattedFromPrice, $this->priceCurrency->format($toPrice));
         }
     }
+
+    /**
+     * @return mixed
+     */
     protected function getCollectionWithoutFilter(){
         if (!$this->emptyCollection) {
             $productCollection = $this->getLayer()->getProductCollection();

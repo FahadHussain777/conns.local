@@ -1,11 +1,16 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
             <argument name="filters" xsi:type="array">
                 <item name="attribute" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Attribute</item>
                 <item name="price" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Price</item>
-                <item name="monthly_payment" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\MonthlyPayment</item>
+                <!--<item name="monthly_payment" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\MonthlyPayment</item>-->
                 <item name="decimal" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Decimal</item>
                 <item name="category" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Category</item>
             </argument>
