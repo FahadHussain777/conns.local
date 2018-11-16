@@ -57,6 +57,9 @@ class Preprocessor
                 $statements = [];
                 foreach ($price as $value) {
                     list($from, $to) = explode("-", $value);
+                    if($from > $to){
+                        $to = $from;
+                    }
                     $statement = [
                         $this->getSqlStringByArray(
                             [(float)$from],
@@ -64,7 +67,7 @@ class Preprocessor
                             '>='
                         ),
                         $this->getSqlStringByArray(
-                            [(float) round($to)],
+                            [(float) $to],
                             '`price_index`.`min_price`',
                             '<='
                         )
