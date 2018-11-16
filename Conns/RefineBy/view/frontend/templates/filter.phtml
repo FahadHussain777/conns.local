@@ -1,0 +1,29 @@
+<?php
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
+?>
+<ol class="items conns-refineby-items">
+    <?php foreach ($filterItems as $filterItem): ?>
+        <li class="item conns-nav-item <?php if($filterItem->isActive()): ?>active<?php endif; ?> "
+            parameter="<?= $filterItem->getRequestVar() ?>"
+            val="<?= $filterItem->getValue();?>">
+            <?php if ($filterItem->getCount() > 0): ?>
+                <a href="javascript:void(0)">
+                    <input type="checkbox" id="status"/>
+                    <label>
+                        <?php echo $filterItem->getLabel(); ?>
+                    <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
+                        <span class="count"><?php echo $filterItem->getCount() ?><span class="filter-count-label"><?php if ($filterItem->getCount() == 1):?><?php echo __('item'); ?><?php else: ?><?php echo __('items'); ?><?php endif; ?></span></span>
+                    <?php endif; ?>
+                    </label>
+                </a>
+            <?php else:?>
+                <?php echo $filterItem->getLabel(); ?>
+                <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
+                    <span class="count"><?php echo $filterItem->getCount() ?><span class="filter-count-label"><?php if ($filterItem->getCount() == 1):?><?php echo __('item'); ?><?php else: ?><?php echo __('items'); ?><?php endif; ?></span></span>
+                <?php endif; ?>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+</ol>
