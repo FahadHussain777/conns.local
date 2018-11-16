@@ -3,4 +3,5 @@
     <type name="Magento\Catalog\CustomerData\CompareProducts">
         <plugin name="conns_addImageToCompare" type="Conns\ProductCompare\Plugin\AddImageToCompare" />
     </type>
+    <preference for="Magento\Catalog\Controller\Product\Compare\Remove" type="Conns\ProductCompare\Controller\Product\Compare\Remove" />
 </config>
