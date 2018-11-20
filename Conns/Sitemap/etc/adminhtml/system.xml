@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Conn's. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="conns" translate="label" sortOrder="1000">
+            <label>Conns</label>
+        </tab>
+        <section id="connssitemap" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Google Sitemap</label>
+            <tab>conns</tab>
+            <resource>Conns_Sitemap::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Conns Google Sitemap</label>
+                <field id="restricted_pages" type="text" translate="label,comment,tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Restricted page</label>
+                    <config_path>connssitemap/general/restricted_pages</config_path>
+                    <comment>Google Sitemap multiple restricted pages can be included separating with comma (,) like home,creditapps.html</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
