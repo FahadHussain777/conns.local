@@ -179,6 +179,12 @@ define([
         _removeItem: function (id,data,event) {
             self = this;
             if(event !== undefined) event.stopPropagation();
+            self._confirmRemove(id,data)
+        },
+
+        _removeItemAndConfirm: function (id,data,event) {
+            self = this;
+            if(event !== undefined) event.stopPropagation();
             confirm({
                 content : "Are you sure you would like to remove this item from the compare products?",
                 actions: {

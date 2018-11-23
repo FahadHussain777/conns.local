@@ -19,7 +19,7 @@
                 <li class="product-item">
                     <img data-bind="attr:{src:small_image_url}"/>
                     <input type="hidden" class="compare-item-id" data-bind="value: id"/>
-                    <a href="#" data-bind="click :function(data, event) { $parent._removeItem(id, data, event) }"  class="remove" >
+                    <a href="#" data-bind="click :function(data, event) { $parent._removeItemAndConfirm(id, data, event) }"  class="remove" >
                         <span><?php /* @escapeNotVerified */ echo __('Remove This Item') ?></span>
                     </a>
                     <div class="compare-info">
