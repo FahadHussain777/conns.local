@@ -2,7 +2,7 @@
 $helper = $block->getCompareHelper();
 ?>
 <div class="compare-button-container no-display" data-bind="scope: 'compareProducts'">
-    <!-- ko if: compareProducts().count > 1 -->
+    <!-- ko if: compareProducts().count > 1 && compareProducts().count < 6-->
     <div>
         <a href="<?=$block->escapeHtml($helper->getListUrl())?>" class="action compare primary">
             <span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span>
