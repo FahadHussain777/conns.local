@@ -18,7 +18,10 @@ define([
                 if(self.element.hasClass('active')) $(checkbox).prop('checked',true);
             }
             else if(self.element.prop('tagName') == 'A'){
-                this._anchorbind(self);
+                var div = self.element.children('div');
+                if(!div.hasClass('disabled')){
+                    this._anchorbind(self);
+                }
             }
         },
 
