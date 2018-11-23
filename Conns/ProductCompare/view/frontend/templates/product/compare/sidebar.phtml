@@ -2,36 +2,38 @@
 // @codingStandardsIgnoreFile
 /* @var $block \Magento\Framework\View\Element\Template */
 ?>
-<div class="block block-compare" data-bind="scope: 'compareProducts'" data-role="compare-products-sidebar">
+<div style="border: transparent" data-bind="scope: 'compareProducts'">
     <!-- ko if: compareProducts().count -->
-    <div class="block-content no-display" aria-labelledby="block-compare-heading" data-bind="css: {'no-display': !compareProducts().count}">
-        <div class="actions-toolbar">
-            <div>Select 2 to 5 items to compare</div>
-            <!-- ko if: compareProducts().count > 1 -->
-            <div class="primary">
-                <a href="<?=$block->escapeHtml(
-                    $this->helper('Magento\Catalog\Helper\Product\Compare')->getListUrl())?>" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
-            </div>
-            <!-- /ko -->
-        </div>
-        <ol id="compare-items" class="product-items product-items-names" data-bind="foreach: { data:compareProducts().items, afterRender:_afterRender}">
-            <li class="product-item">
-                <img data-bind="attr:{src:small_image_url}"/>
-                <input type="hidden" class="compare-item-id" data-bind="value: id"/>
-                <a href="#" data-bind="click :function(data, event) { $parent._removeItem(id, data, event) }"  class="remove" >
-                    <span><?php /* @escapeNotVerified */ echo __('Remove This Item') ?></span>
-                </a>
-                <div class="compare-info">
-                    <img class="big-image" data-bind="attr:{src:image_url}"/>
-                    <div>
-                        <div data-bind="html:price"></div>
-                        <p class="product-item-name">
-                            <a data-bind="attr: {'href': product_url}, html: name" class="product-item-link"></a>
-                        </p>
-                    </div>
+    <div class="block block-compare" data-bind="scope: 'compareProducts'" data-role="compare-products-sidebar" >
+        <div class="block-content no-display" aria-labelledby="block-compare-heading" data-bind="css: {'no-display': !compareProducts().count}">
+            <div class="actions-toolbar" >
+                <div>Select 2 to 5 items to compare</div>
+                <!-- ko if: compareProducts().count > 1 -->
+                <div class="primary">
+                    <a href="<?=$block->escapeHtml(
+                        $this->helper('Magento\Catalog\Helper\Product\Compare')->getListUrl())?>" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
                 </div>
-            </li>
-        </ol>
+                <!-- /ko -->
+            </div>
+            <ol id="compare-items" class="product-items product-items-names" data-bind="foreach: { data:compareProducts().items, afterRender:_afterRender}">
+                <li class="product-item">
+                    <img data-bind="attr:{src:small_image_url}"/>
+                    <input type="hidden" class="compare-item-id" data-bind="value: id"/>
+                    <a href="#" data-bind="click :function(data, event) { $parent._removeItem(id, data, event) }"  class="remove" >
+                        <span><?php /* @escapeNotVerified */ echo __('Remove This Item') ?></span>
+                    </a>
+                    <div class="compare-info">
+                        <img class="big-image" data-bind="attr:{src:image_url}"/>
+                        <div>
+                            <div data-bind="html:price"></div>
+                            <p class="product-item-name">
+                                <a data-bind="attr: {'href': product_url}, html: name" class="product-item-link"></a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
     </div>
     <!-- /ko -->
 </div>
