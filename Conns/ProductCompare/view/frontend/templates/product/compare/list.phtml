@@ -6,9 +6,9 @@
 ?>
 <?php $total = $block->getItems()->getSize() ?>
 <?php if ($total == 1):?>
-    <h2>Insufficient products selected</h2>
+    <h2>Please select additional items</h2>
     </br>
-    <p>You can compare a minimum of 2 and maximum of 5 items.</p>
+    <p>You must select at least 2 items to compare. Compare up to 5 items at a time.</p>
     <p>Click <a href="<?=/* @escapeNotVerified */$block->getBackUrl() ?>">here</a> to continue shopping.</p>
 <?php elseif($total>5):?>
     <h2>Maximum products selected</h2>
@@ -58,7 +58,7 @@
                             <th scope="row" class="cell label product"><span><?= /* @escapeNotVerified */ __('Product') ?></span></th>
                         <?php endif; ?>
                         <td data-th="<?= $block->escapeHtml(__('Product')) ?>" class="cell product info">
-                            <a class="product-item-photo" href="<?= /* @escapeNotVerified */ $block->getProductUrl($item) ?>" title="<?= /* @escapeNotVerified */ $block->stripTags($item->getName(), null, true) ?>">
+                            <a  target="_blank" class="product-item-photo" href="<?= /* @escapeNotVerified */ $block->getProductUrl($item) ?>" title="<?= /* @escapeNotVerified */ $block->stripTags($item->getName(), null, true) ?>">
                                 <?= $block->getImage($item, 'product_comparison_list')->toHtml() ?>
                             </a>
                             <strong class="product-item-name">
