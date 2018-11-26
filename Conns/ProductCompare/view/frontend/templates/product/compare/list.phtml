@@ -5,7 +5,12 @@
 /* @var $block \Magento\Catalog\Block\Product\Compare\ListCompare */
 ?>
 <?php $total = $block->getItems()->getSize() ?>
-<?php if ($total>5):?>
+<?php if ($total == 1):?>
+    <h2>Insufficient products selected</h2>
+    </br>
+    <p>You can compare a minimum of 2 and maximum of 5 items.</p>
+    <p>Click <a href="<?=/* @escapeNotVerified */$block->getBackUrl() ?>">here</a> to continue shopping.</p>
+<?php elseif($total>5):?>
     <h2>Maximum products selected</h2>
     </br>
     <p>You can compare a maximum of 5 items.</p>
