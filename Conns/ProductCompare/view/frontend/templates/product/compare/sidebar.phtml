@@ -8,7 +8,7 @@
         <div class="block-content no-display" aria-labelledby="block-compare-heading" data-bind="css: {'no-display': !compareProducts().count}">
             <div class="actions-toolbar" >
                 <div>Select 2 to 5 items to compare</div>
-                <!-- ko if: compareProducts().count > 1 && compareProducts().count < 6 -->
+                <!-- ko if: compareProducts().count > 1 -->
                 <div class="primary">
                     <a href="<?=$block->escapeHtml(
                         $this->helper('Magento\Catalog\Helper\Product\Compare')->getListUrl())?>" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
