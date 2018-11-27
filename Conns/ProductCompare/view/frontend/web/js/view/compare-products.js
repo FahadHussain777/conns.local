@@ -39,6 +39,17 @@ define([
             this._setupChangeEvents(anchor);
             this._toggleBind(anchor);
         },
+        _compareProduct: function(url){
+            if(this.compareProducts().items.length > 1){
+                window.open(url,"_self");
+            }else{
+                alert({
+                    content: "You can't compare only one item.",
+                    actions: {
+                    }
+                });
+            }
+        },
         _toggleBind : function (anchor) {
             self = this;
             // click label toggles checkbox and active class

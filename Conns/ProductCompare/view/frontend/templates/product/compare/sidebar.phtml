@@ -8,12 +8,9 @@
         <div class="block-content no-display" aria-labelledby="block-compare-heading" data-bind="css: {'no-display': !compareProducts().count}">
             <div class="actions-toolbar" >
                 <div>Select 2 to 5 items to compare</div>
-                <!-- ko if: compareProducts().count > 1 -->
-                <div class="primary">
-                    <a href="<?=$block->escapeHtml(
-                        $this->helper('Magento\Catalog\Helper\Product\Compare')->getListUrl())?>" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
+                <div class="primary" data-bind="click:function() { $parent._compareProduct('<?= $block->escapeHtml($this->helper('Magento\Catalog\Helper\Product\Compare')->getListUrl())?>'); }">
+                    <a href="javascript:void(0)" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
                 </div>
-                <!-- /ko -->
             </div>
             <ol id="compare-items" class="product-items product-items-names" data-bind="foreach: { data:compareProducts().items, afterRender:_afterRender}">
                 <li class="product-item">

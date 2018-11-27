@@ -2,13 +2,9 @@
 $helper = $block->getCompareHelper();
 ?>
 <div class="compare-button-container no-display" data-bind="scope: 'compareProducts'">
-    <!-- ko if: compareProducts().count > 1 -->
-    <div>
-        <a href="<?=$block->escapeHtml($helper->getListUrl())?>" class="action compare primary">
-            <span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span>
-        </a>
+    <div data-bind="click:function() { _compareProduct('<?=$block->escapeHtml($helper->getListUrl())?>'); }">
+        <a href="javascript:void(0)" class="action compare primary"><span><?php /* @escapeNotVerified */ echo __('Compare Now') ?></span></a>
     </div>
-    <!-- /ko -->
 </div>
 <input type="checkbox" class="comparestatus" />
 <a
