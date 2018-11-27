@@ -203,18 +203,19 @@ define([
         },
 
         _afterRender : function(element){
+            $('.block.block-compare').css('border','');
             var li = $(element[1]);
             var productId = li.find('.compare-item-id').val();
             var anchor = $('a.compare-'+productId);
-                setTimeout(function () {
-                    if(anchor !== undefined && !anchor.hasClass('active')){
-                       anchor.addClass('active');
-                       var checkbox = anchor.siblings('input.comparestatus');
-                       var compareButton = anchor.siblings('div.compare-button-container');
-                       checkbox.prop('checked',true);
-                       compareButton.removeClass('no-display');
-                    }
-                },500);
+            setTimeout(function () {
+                if(anchor !== undefined && !anchor.hasClass('active')){
+                    anchor.addClass('active');
+                    var checkbox = anchor.siblings('input.comparestatus');
+                    var compareButton = anchor.siblings('div.compare-button-container');
+                    checkbox.prop('checked',true);
+                    compareButton.removeClass('no-display');
+                }
+            },500);
         },
         _confirmRemove : function (id,data) {
             var anchor = $('a.compare-'+id);
