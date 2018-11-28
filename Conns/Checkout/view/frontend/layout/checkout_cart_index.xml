@@ -1,10 +1,31 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <move element="cart.summary" destination="checkout.cart.items" as="conns_cart_summary" after="-"/>
-    <referenceBlock name="checkout.cart.item.renderers.simple.actions.edit" remove="true"/>
+    <referenceBlock name="page.main.title">
+        <block class="Magento\Checkout\Block\Onepage\Link" name="conns.checkout.cart.methods.onepage.top" template="Conns_Checkout::onepage/link.phtml"/>
+    </referenceBlock>
     <referenceBlock name="checkout.cart.form">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Conns_Checkout::cart/form.phtml</argument>
         </action>
     </referenceBlock>
+    <move element="cart.summary" destination="checkout.cart.items" as="conns_cart_summary" after="-"/>
+    <referenceBlock name="checkout.cart.methods.onepage.bottom">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Conns_Checkout::onepage/link.phtml</argument>
+        </action>
+    </referenceBlock>
+
+    <!--/*Remove gift card template from checkout/cart*/-->
+    <referenceBlock name="checkout.cart.order.actions.gift_options" remove="true"/>
+    <referenceContainer name="cart.summary">
+        <referenceBlock name="checkout.cart.giftcardaccount" remove="true"/>
+    </referenceContainer>
+    <!--/*Remove gift card template from checkout/cart*/-->
+
+    <referenceBlock name="checkout.cart.coupon">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Conns_Checkout::cart/coupon.phtml</argument>
+        </action>
+    </referenceBlock>
+
 </page>

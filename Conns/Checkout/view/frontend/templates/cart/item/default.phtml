@@ -119,12 +119,16 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
     </td>
 </tr>
 <tr class="item-actions">
+    <td>
+        <div class="protect-Warranties-txt">
+            Great Selection! Click <a href="javascript:;" itemid="<?= /* @escapeNotVerified */ $block->getProduct()->getId()?>" sku="<?= /* @escapeNotVerified*/ $block->getProduct()->getSku() ?>" class="warranty-link">here</a> to add protection to your purchases.
+        </div>
+    </td>
     <td colspan="100">
         <div class="actions-toolbar">
             <?= /* @escapeNotVerified */ $block->getActions($_item) ?>
         </div>
     </td>
-</tr>
 </tbody>
 <script type="text/javascript">
     require(['jquery'],function ($) {
