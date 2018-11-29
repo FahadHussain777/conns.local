@@ -107,7 +107,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $this->collectionProvider = $collectionProvider;
         $this->priceCurrency = $priceCurrency;
         $this->priceAlgorithm = $priceAlgorithm;
-        $this->_requestVar = 'monthly_payment';
+        $this->_requestVar = 'monthly_payment_amount';
     }
 
     /**
@@ -139,7 +139,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         list($from, $blank) = explode("-", $values[0]);
         list($blank, $to) = explode("-", $values[count($values)-1]);
         $collection->addFieldToFilter(
-            'monthly_payment',
+            'monthly_payment_amount',
             [
                 'from' => $from-0.9,
                 'to' => (float) $to
@@ -153,11 +153,11 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
      */
     public function getAllPaymentValues(){
         $collection = $this->getCollectionWithoutFilter();
-        $collection->addAttributeToSelect('monthly_payment');
+        $collection->addAttributeToSelect('monthly_payment_amount');
         $data = [];
         foreach ($collection as $product){
-            if($product->getData('monthly_payment') !== null){
-                $data[] = $product->getData('monthly_payment');
+            if($product->getData('monthly_payment_amount') !== null){
+                $data[] = $product->getData('monthly_payment_amount');
             }
         }
         if(empty($data)){
@@ -171,11 +171,11 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
      */
     public function getMax(){
         $collection = $this->getCollectionWithoutFilter();
-        $collection->addAttributeToSelect('monthly_payment');
+        $collection->addAttributeToSelect('monthly_payment_amount');
         $data = [];
         foreach ($collection as $product){
-            if($product->getData('monthly_payment') !== null){
-                $data[] = $product->getData('monthly_payment');
+            if($product->getData('monthly_payment_amount') !== null){
+                $data[] = $product->getData('monthly_payment_amount');
             }
         }
         if(empty($data)){
@@ -189,11 +189,11 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
      */
     public function getMin(){
         $collection = $this->getCollectionWithoutFilter();
-        $collection->addAttributeToSelect('monthly_payment');
+        $collection->addAttributeToSelect('monthly_payment_amount');
         $data = [];
         foreach ($collection as $product){
-            if($product->getData('monthly_payment') !== null){
-                $data[] = $product->getData('monthly_payment');
+            if($product->getData('monthly_payment_amount') !== null){
+                $data[] = $product->getData('monthly_payment_amount');
             }
         }
         if(empty($data)){

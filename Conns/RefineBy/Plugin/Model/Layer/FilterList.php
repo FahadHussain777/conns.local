@@ -13,7 +13,7 @@ class FilterList
     /**
      * @class \Conns\RefineBy\Model\Layer\Filter\MonthlyPayment
      */
-    const MONTHLY_PAYMENT_FILTER   = \Conns\RefineBy\Model\Layer\Filter\MonthlyPayment::class;
+    const MONTHLY_PAYMENT_AMOUNT_FILTER   = \Conns\RefineBy\Model\Layer\Filter\MonthlyPayment::class;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -51,9 +51,9 @@ class FilterList
     ){
         $results = $proceed($layer);
         foreach ( $results as $index => $attribute) {
-            if($attribute->getRequestVar() === "monthly_payment"){
+            if($attribute->getRequestVar() === "monthly_payment_amount"){
                 foreach($this->filterableAttributes->getList() as $attributelist) {
-                    if($attributelist->getName() == 'monthly_payment' ){
+                    if($attributelist->getName() == 'monthly_payment_amount' ){
                         $results[$index] = $this->createAttributeFilter($attributelist, $layer);
                     }
                 }
@@ -87,7 +87,7 @@ class FilterList
      */
     protected function getAttributeFilterClass(\Magento\Catalog\Model\ResourceModel\Eav\Attribute $attribute)
     {
-        $filterClassName = self::MONTHLY_PAYMENT_FILTER;
+        $filterClassName = self::MONTHLY_PAYMENT_AMOUNT_FILTER;
         return $filterClassName;
     }
 }
