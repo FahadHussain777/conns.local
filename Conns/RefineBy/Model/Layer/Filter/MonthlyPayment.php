@@ -141,7 +141,7 @@ class MonthlyPayment extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         $collection->addFieldToFilter(
             'monthly_payment_amount',
             [
-                'from' => $from-0.9,
+                'from' => (float)($from-0.99),
                 'to' => (float) $to
             ]
         );
