@@ -10,7 +10,7 @@
             <argument name="filters" xsi:type="array">
                 <item name="attribute" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Attribute</item>
                 <item name="price" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Price</item>
-                <!--<item name="monthly_payment_amount" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\MonthlyPayment</item>-->
+                <item name="monthly_payment_amount" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\MonthlyPayment</item>
                 <item name="decimal" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Decimal</item>
                 <item name="category" xsi:type="string">Conns\RefineBy\Model\Layer\Filter\Category</item>
             </argument>
