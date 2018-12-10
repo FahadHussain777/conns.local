@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="locator_page_save_after">
+        <observer name="locator_hours_store_after" instance="Conns\PowerStore\Observer\StoreSaveAfter"/>
+    </event>
+    <!--<event name="locator_page_load_after">-->
+        <!--<observer name="locator_hours_load_after" instance="Conns\PowerStore\Observer\StoreLoadAfter"/>-->
+    <!--</event>-->
+</config>

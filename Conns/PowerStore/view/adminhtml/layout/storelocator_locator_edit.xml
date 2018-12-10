@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Conns_PowerStore::js/toggledate.js"/>
+    </head>
+    <body>
+        <referenceBlock  name="storelocator_edit_tabs" remove="true"/>
+        <referenceContainer name="left">
+            <block class="Conns\PowerStore\Block\Adminhtml\Edit\Tabs" name="powerstore_edit_tabs"/>
+        </referenceContainer>
+    </body>
+</page>

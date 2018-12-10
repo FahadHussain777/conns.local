@@ -1,0 +1,62 @@
+<?php
+    $locator = $block->getLocator();
+    $address = $locator->getAddress();
+?>
+<div class="storelocator-store-info">
+    <div class="storelocator-map">
+        <iframe
+            width="711"
+            height="540"
+            frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?key=<?php echo $block->getApiKey()?>
+        &q=<?php echo $block->getAddress($locator)?>&language=en" allowfullscreen>
+        </iframe>
+    </div>
+    <div class="storelocator-store-info-bottom">
+        <div class="form-col">
+            <h4>Get Directions From:</h4>
+            <form action="" method="post" class="field">
+                <label for="street">Street Address</label>
+                <input id="street" name="street" type="text">
+                <label for="city">City</label>
+                <input id="city" name="city" type="text">
+                <label for="state">State</label>
+                <select id="state" name="state">
+                    <?php foreach($block->getStates() as $state):?>
+                        <option value="<?= $state?>"><?= $state?></option>
+                    <?php endforeach;?>
+                </select>
+                <label for="postcode">Zip Code</label>
+                <input id="postcode" name="postcode" type="tel">
+            </form>
+            <button type="button" class="direction-button">
+                <span>
+                    <span>Get Directions</span>
+                </span>
+            </button>
+        </div>
+        <div class="form-col">
+
+        </div>
+    </div>
+</div>
+<script>
+    require(['jquery'],function ($) {
+        $('.direction-button').on('click',function () {
+            var dest = '<?php echo urlencode($address->getStreet()[0].' '.$address->getCity().','.$address->getRegionCode().' '.$address->getPostcode())?>';
+            var state = $('#state').val();
+            // if(state === '-- Please select --'){
+            //     state ='';
+            // }
+            var start = $('#street').val() + '%20' + $('#city').val() + ',%20' + state + '%20' + $('#postcode').val();
+            console.log(dest);
+            console.log(start);
+            if (start != "%20,%20"+ $('#state').val() +"%20") {
+                window.open('https://maps.google.com/maps?saddr=' + start + '&daddr=' + dest, '_blank');
+            }
+            else{
+                window.open('https://maps.google.com/maps?daddr=' + dest, '_blank');
+            }
+        });
+    })
+</script>
