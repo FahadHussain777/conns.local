@@ -1,0 +1,62 @@
+<?php
+?>
+<?php
+/** @var \BrainActs\StoreLocator\Block\View  $block */
+?>
+<?php
+$locator = $block->getLocator();
+$address = $locator->getAddress();
+?>
+<div class="storelocator-store-left">
+    <div class="storelocator-store-information block">
+        <?php if(!empty($locator->getImage())): ?>
+            <div class="storelocator-store-image">
+                <img width="200" src="<?php echo $block->resize($locator->getImage())?>" alt="<?= $locator->getName()?>">
+            </div>
+        <?php endif;?>
+        <p><span><strong>EXTRA INFORMATION!<br></strong></span></p>
+        <div>
+            <?= $locator->getExtraInfo()?>
+        </div>
+    </div>
+    <div class="storelocator-store-address block">
+        <div class="address">
+            <span><?= $address->getStreet()[0]?></span><br>
+            <span><span><?= $address->getCity()?></span>, <span ><?= $address->getRegionCode()?> </span><?= $address->getPostcode()?></span>
+        </div>
+    </div>
+    <div class="storelocator-hours block">
+        <?php $_hours = $block->getAggregateHours();?>
+        <div class="column">
+            <?php foreach(array_keys($_hours) as $title): ?>
+                <span><?php echo $title ?></span>
+            <?php endforeach ?>
+        </div>
+        <div class="column store_hours">
+            <?php foreach($_hours as $key => $value): ?>
+                <span><?php echo $value ?></span>
+                <meta content="<?php echo $key.' '.$value ?>">
+            <?php endforeach ?>
+        </div>
+    </div>
+    <div class="storelocator-contact-content">
+        <h4>Contact Information</h4>
+        <div class="storelocator-contact block">
+            <div class="column">
+                <span>Call</span>
+            </div>
+            <div class="column">
+                <span><a href="tel:+1-<?=$address->getTelephone()?>"><?= $address->getTelephone()?></a></span>
+            </div>
+        </div>
+    </div>
+    <div class="rating">
+        <div id="PWRSummaryContainer"></div>
+    </div>
+    <div class="yes-money-promo-layout">
+        <div class="yes-money-promo-cnt">
+            <div class="yes-money-icon"></div>
+            <p class="store-prequal"><a href="<?=$block->getBaseUrl()?>/yes-money-credit/" title="PREQUALIFY NOW">PREQUALIFY NOW</a></p>
+        </div>
+    </div>
+</div>

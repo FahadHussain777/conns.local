@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright
+ *
+ */
+
+?>
+<?php
+/** @var \BrainActs\StoreLocator\Block\View  $block */
+?>
+<?php
+$locator = $block->getLocator();
+?>
+<h1><?php echo $locator->getName()?></h1>
+<div class="storelocator-store-left">
+    <div class="storelocator-store-image">
+        <?php $image =  $block->resize($locator->getBanner()) ?>
+        <?php if (!empty($image)):?>
+            <div class="storelocator-banner">
+                <img src="<?php echo $image;?>" alt="<?php echo $locator->getName()?>" title="<?php echo $locator->getName()?>"/>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="storelocator-store-address">
+        <address><?php echo $locator->getAddress()->getAddressHtml()?></address>
+    </div>
+    <div class="storelocator-contact-content">
+        <?php $email = $block->escapeHtml($locator->getEmail());?>
+        <?php $website = $block->escapeHtml($locator->getWebsite());?>
+        <?php if (!empty($website)):?>
+            <p><label><?php echo __('Website')?>:</label> <a href="<?php echo $this->prepareWebsite($website)?>" target="_blank"><?php echo $website?></a></p></p>
+        <?php endif;?>
+        <?php if (!empty($email)):?>
+            <p><label><?php echo __('Email')?>:</label> <a href="mailto:<?php echo $email?>"><?php echo $email?></a></p>
+        <?php endif;?>
+    </div>
+    <div class="storelocator-hours">
+        <?php $hours =  $locator->getVisitingHours()?>
+        <?php if (!empty($hours)):?>
+            <p><label><?php echo __('Visiting Hours')?>:</label> <?php echo $hours?></p>
+        <?php endif;?>
+    </div>
+    <div class="rating">
+        <div id="PWRSummaryContainer">
+            <div class="p-w-r">
+                <section id="pr-category-snippets-192" class="">
+                    <section class="pr-snippet pr-category-snippet">
+                        <section class="pr-category-snippet__rating pr-category-snippet__item">
+                            <div class="pr-snippet-stars pr-snippet-stars-png ">
+                                <div aria-hidden="true" role="radiogroup" class="pr-rating-stars">
+                                    <div role="radio" class="pr-star-v4 pr-star-v4-100-filled" aria-checked="true" tabindex="-1"></div>
+                                    <div role="radio" class="pr-star-v4 pr-star-v4-100-filled" aria-checked="true" tabindex="-1"></div>
+                                    <div role="radio" class="pr-star-v4 pr-star-v4-100-filled" aria-checked="true" tabindex="-1"></div>
+                                    <div role="radio" class="pr-star-v4 pr-star-v4-100-filled" aria-checked="true" tabindex="-1"></div>
+                                    <div role="radio" class="pr-star-v4 pr-star-v4-100-filled" aria-checked="true" tabindex="-1"></div>
+                                </div>
+                                <div aria-hidden="true" class="pr-snippet-rating-decimal">4.9</div>
+                            </div>
+                        </section>
+                        <section class="pr-category-snippet__total pr-category-snippet__item">215 Reviews</section>
+                        <script type="application/ld+json">{"@context":"http://schema.org/","@type":"AggregateRating","ratingValue":4.91,"reviewCount":215,"itemReviewed":{"@type":"Product","@id":"450346-192-en_US"}}</script>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="storelocator-store-info">
+    <div class="storelocator-wrapper-row">
+        <div class="storelocator-map">
+            <iframe
+                    width="100%"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src="https://www.google.com/maps/embed/v1/place?key=<?php echo $block->getApiKey()?>
+    &q=<?php echo $block->getAddress($locator)?>&language=en" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    <div class="store-details">
+        <p><?php echo $locator->getDescription()?></p>
+    </div>
+</div>

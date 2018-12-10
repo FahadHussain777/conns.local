@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceContainer name="root">
+        <block class="Magento\Framework\View\Element\Template" template="PowerReviews_ReviewDisplay::afterbody.phtml" before="-" />
+    </referenceContainer>
+    <referenceBlock name="storelocator_view" remove="true"/>
+    <referenceBlock name="content">
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_title" template="Conns_PowerStore::pagetitle.phtml"/>
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_left" template="Conns_PowerStore::storeinfo.phtml"/>
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_info" template="Conns_PowerStore::Map.phtml" cacheable="false" />
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_right" template="Conns_PowerStore::yesmoney.phtml"/>
+    </referenceBlock>
+</page>
+
