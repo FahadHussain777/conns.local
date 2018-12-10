@@ -1,9 +1,5 @@
 <?php
-?>
-<?php
 /** @var \BrainActs\StoreLocator\Block\View  $block */
-?>
-<?php
 $locator = $block->getLocator();
 $address = $locator->getAddress();
 ?>
@@ -11,7 +7,7 @@ $address = $locator->getAddress();
     <div class="storelocator-store-information block">
         <?php if(!empty($locator->getImage())): ?>
             <div class="storelocator-store-image">
-                <img width="200" src="<?php echo $block->resize($locator->getImage())?>" alt="<?= $locator->getName()?>">
+                <img width="200" src="<?php echo $block->resize($locator->getImage(),200,100)?>" alt="<?= $locator->getName()?>">
             </div>
         <?php endif;?>
         <p><span><strong>EXTRA INFORMATION!<br></strong></span></p>
@@ -50,9 +46,17 @@ $address = $locator->getAddress();
             </div>
         </div>
     </div>
+    <?php if($locator->getStoreNumber()):?>
     <div class="rating">
-        <div id="PWRSummaryContainer"></div>
+        <?=/*@escapenotverified*/ $block->getChildBlock('review-rating')
+            ->setData([
+                    'locator' => $locator,
+                    'store_url' => $block->getLocatorUrl($locator->getIdentifier()),
+                    'image_url' => $block->resize($locator->getImage())
+            ])->toHtml();
+        ?>
     </div>
+    <?php endif;?>
     <div class="yes-money-promo-layout">
         <div class="yes-money-promo-cnt">
             <div class="yes-money-icon"></div>

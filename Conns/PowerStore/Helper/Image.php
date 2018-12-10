@@ -29,7 +29,7 @@ class Image extends \BrainActs\StoreLocator\Helper\Image
         parent::__construct($context,$filesystem,$imageFactory,$storeManager);
     }
 
-    public function resize($source)
+    public function resize($source,$width = 0,$height = 0)
     {
         $realPath = $this->locatorDirectory->getRelativePath($source);
 
@@ -70,7 +70,9 @@ class Image extends \BrainActs\StoreLocator\Helper\Image
             $image = $this->imageFactory->create();
             $image->open($this->locatorDirectory->getAbsolutePath($source));
             $image->keepAspectRatio(true);
-            $image->resize(200, 110);
+            if($width !== 0 && $height !== 0){
+                $image->resize($width, $height);
+            }
             $image->save($dest);
         }
 

@@ -1,0 +1,61 @@
+<?php
+/**
+ * @author Michal Walkowiak
+ * @copyright Copyright (c) 2017 PowerReviews (http://www.powerreviews.com)
+ * @package PowerReviews_ReviewDisplay
+ */
+$locator = $block->getData('locator');
+$storeUrl = $block->getData('store_url');
+$imageUrl = $block->getData('image_url');
+?>
+<div id="pwr-rating">
+    <!-- start_product_section_review_snippet_section -->
+    <div id="pr-reviewsnippet" style="<?= $this->getProductPageReviewSnippet() ? '' : 'display: none;' ?>"></div>
+    <!-- end_product_section_review_snippet_section -->
+</div>
+
+<!-- start_review_render_code_js_section -->
+<script>
+    POWERREVIEWS.display.render({
+        api_key: "<?= trim($this->getApiKey()); ?>",
+        locale: "<?= trim($this->getLocale()); ?>",
+        merchant_group_id: "<?= trim($this->getMerchantGroupId()); ?>",
+        merchant_id: "<?= trim($this->getMerchantId()); ?>",
+        page_id: "<?= trim(urlencode($locator->getStoreNumber())); ?>",
+        review_wrapper_url: "<?= $this->getBaseUrl(); ?>write-a-review/?pr_page_id=<?= trim(urlencode($locator->getStoreNumber())); ?>",
+        on_read_reviews_click: function() {
+            require(['jquery', 'jquery/ui'], function($){
+                var reviewdisplay = $("#reviewdisplay\\.tab");
+                $('#tab-label-reviewdisplay\\.tab-title').click();
+                reviewdisplay.show();
+                setTimeout(function() {
+                    reviewdisplay[0].scrollIntoView(true);
+                    document.body.scrollTop -= 100;
+                }, 0);
+            });
+        },
+        on_view_answers_click: function() {
+            require(['jquery', 'jquery/ui'], function($){
+                var questiondisplay = $("#questiondisplay\\.tab");
+                $('#tab-label-questiondisplay\\.tab-title').click();
+                questiondisplay.show();
+                setTimeout(function() {
+                    questiondisplay[0].scrollIntoView(true);
+                    document.body.scrollTop -= 100;
+                }, 0);
+            });
+        },
+        product: {
+            name: "<?= addslashes(str_replace(array("\n", "\r"), ' ', strip_tags($locator->getName()))); ?>",
+            url: "<?=/*@escapeNotVerified*/$storeUrl ?>",
+            image_url: "<?=/*@escapeNotVerified*/ $imageUrl ?>",
+            description: "<?= addslashes(str_replace(array("\n", "\r"), ' ', strip_tags($locator->getDescription()))); ?>",
+            category_name: "Store Locator"
+        },
+        components: {
+            ReviewSnippet: 'pr-reviewsnippet',
+            ReviewDisplay: 'pr-container'
+        }
+    });
+</script>
+<!-- end_review_render_code_js_section -->

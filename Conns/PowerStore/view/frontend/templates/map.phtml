@@ -35,25 +35,31 @@
                 </span>
             </button>
         </div>
-        <div class="form-col">
-
+        <div class="content-col">
+            <h3>Store Information</h3>
+            <div>
+                <?=/*@escapenotverified*/$locator->getDescription()?>
+            </div>
         </div>
     </div>
+    <?php if($locator->getStoreNumber()):?>
+        <?php echo $block->setData('locator',$locator)->getChildBlock('review-container')->toHtml();?>
+    <?php endif;?>
+    <script>
+        require(['jquery'],function ($) {
+            $('.direction-button').on('click',function () {
+                var dest = '<?php echo urlencode($address->getStreet()[0].' '.$address->getCity().','.$address->getRegionCode().' '.$address->getPostcode())?>';
+                var state = $('#state').val();
+                var start = $('#street').val() + '%20' + $('#city').val() + ',%20' + state + '%20' + $('#postcode').val();
+                console.log(dest);
+                console.log(start);
+                if (start != "%20,%20"+ $('#state').val() +"%20") {
+                    window.open('https://maps.google.com/maps?saddr=' + start + '&daddr=' + dest, '_blank');
+                }
+                else{
+                    window.open('https://maps.google.com/maps?daddr=' + dest, '_blank');
+                }
+            });
+        })
+    </script>
 </div>
-<script>
-    require(['jquery'],function ($) {
-        $('.direction-button').on('click',function () {
-            var dest = '<?php echo urlencode($address->getStreet()[0].' '.$address->getCity().','.$address->getRegionCode().' '.$address->getPostcode())?>';
-            var state = $('#state').val();
-            var start = $('#street').val() + '%20' + $('#city').val() + ',%20' + state + '%20' + $('#postcode').val();
-            console.log(dest);
-            console.log(start);
-            if (start != "%20,%20"+ $('#state').val() +"%20") {
-                window.open('https://maps.google.com/maps?saddr=' + start + '&daddr=' + dest, '_blank');
-            }
-            else{
-                window.open('https://maps.google.com/maps?daddr=' + dest, '_blank');
-            }
-        });
-    })
-</script>

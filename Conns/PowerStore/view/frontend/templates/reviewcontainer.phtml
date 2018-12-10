@@ -1,0 +1,31 @@
+<div class="rating_userreview">
+    <span class="drop-down-arrow up-arrow">&#8593;</span>
+    <div style="display: block;" class="local_userreview">
+        <h2>Customer Reviews</h2>
+    </div>
+    <div id="pwr-rating">
+        <!-- start_product_section_review_snippet_section -->
+        <div id="pr-reviewsnippet" style="<?= $this->getProductPageReviewSnippet() ? '' : 'display: none;' ?>"></div>
+        <!-- end_product_section_review_snippet_section -->
+    </div>
+    <div id="pwr-review">
+        <!-- start_product_section_review_container_section -->
+        <div id="pr-container" style="<?= $this->getProductPageReviewSnippet() ? '' : 'display: none;' ?>"></div>
+        <!-- end_product_section_review_container_section -->
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery'],function ($) {
+        $('.drop-down-arrow').on('click', function () {
+            if($(this).hasClass('up-arrow')){
+                $(this).removeClass('up-arrow');
+                $(this).addClass('down-arrow');
+                $('#pwr-review').hide();
+            }else{
+                $(this).removeClass('down-arrow');
+                $(this).addClass('up-arrow');
+                $('#pwr-review').show();
+            }
+        });
+    });
+</script>

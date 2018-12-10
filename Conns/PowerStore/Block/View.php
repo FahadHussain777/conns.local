@@ -18,9 +18,9 @@ class View extends \BrainActs\StoreLocator\Block\View
         $this->psimageHelper = $psimageHelper;
     }
 
-    public function resize($source)
+    public function resize($source,$width = 0,$height = 0)
     {
-        return $this->psimageHelper->resize($source);
+        return $this->psimageHelper->resize($source,$width,$height);
     }
 
     public function getAggregateHours(){
@@ -30,6 +30,15 @@ class View extends \BrainActs\StoreLocator\Block\View
             'Thu' => '5:00am-12:00am',
             'Fri-Sun' => '12:00am-12:00am'
         ];
+    }
+
+    public function getLocatorUrl($identifier)
+    {
+        $route = $this->personalPageAllow = $this->_scopeConfig->getValue(
+            'brainacts_storelocator/general/page_url',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        return $this->getUrl($route . '/' . $identifier);
     }
 
     public function getStates(){

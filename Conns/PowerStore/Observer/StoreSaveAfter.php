@@ -24,47 +24,49 @@ class StoreSaveAfter implements ObserverInterface
     {
         $id = $this->request->getParam('locator_id');
         $params = $this->request->getParams();
-        foreach ($params['hours'] as $dow => $value){
-            $storehour = $this->storeHoursFactory->create();
-            if(!empty($id)){
-                if($params['hours'][$dow]['enabled'] == 1) {
-                    $item = $storehour->loadByLocatorId($dow, $id);
-                    if ($item->getId()) {
-                        $data = [
-                            'locator_id' => $params['locator_id'],
-                            'dow' => $dow,
-                            'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
-                            'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
-                        ];
-                        $item->addData($data)->save();
-                    }
+        if(isset($params['hours'])){
+            foreach ($params['hours'] as $dow => $value){
+                $storehour = $this->storeHoursFactory->create();
+                if(!empty($id)){
+                    if($params['hours'][$dow]['enabled'] == 1) {
+                        $item = $storehour->loadByLocatorId($dow, $id);
+                        if ($item->getId()) {
+                            $data = [
+                                'locator_id' => $params['locator_id'],
+                                'dow' => $dow,
+                                'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
+                                'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
+                            ];
+                            $item->addData($data)->save();
+                        }
+                        else{
+                            $data = [
+                                'locator_id' => $params['locator_id'],
+                                'dow' => $dow,
+                                'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
+                                'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
+                            ];
+                            $item->setData($data)->save();
+                            }
+                        }
                     else{
-                        $data = [
-                            'locator_id' => $params['locator_id'],
-                            'dow' => $dow,
-                            'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
-                            'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
-                        ];
-                        $item->setData($data)->save();
+                        $item = $storehour->loadByLocatorId($dow, $id);
+                        if ($item->getId()) {
+                            $item->delete()->save();
                         }
                     }
-                else{
-                    $item = $storehour->loadByLocatorId($dow, $id);
-                    if ($item->getId()) {
-                        $item->delete()->save();
-                    }
                 }
-            }
-            else{
-                $store = $observer->getEvent()->getDataObject();
-                if($params['hours'][$dow]['enabled'] == 1){
-                    $data = [
-                        'locator_id' => $store->getId(),
-                        'dow' => $dow,
-                        'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
-                        'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
-                    ];
-                    $storehour->setData($data)->save();
+                else{
+                    $store = $observer->getEvent()->getDataObject();
+                    if($params['hours'][$dow]['enabled'] == 1){
+                        $data = [
+                            'locator_id' => $store->getId(),
+                            'dow' => $dow,
+                            'open' => strtotime($params['hours'][$dow]['open'][0].':'.$params['hours'][$dow]['open'][1].':'.$params['hours'][$dow]['open'][2]),
+                            'close' => strtotime($params['hours'][$dow]['close'][0].':'.$params['hours'][$dow]['close'][1].':'.$params['hours'][$dow]['close'][2]),
+                        ];
+                        $storehour->setData($data)->save();
+                    }
                 }
             }
         }

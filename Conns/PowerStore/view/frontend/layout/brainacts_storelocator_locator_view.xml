@@ -6,8 +6,12 @@
     <referenceBlock name="storelocator_view" remove="true"/>
     <referenceBlock name="content">
         <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_title" template="Conns_PowerStore::pagetitle.phtml"/>
-        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_left" template="Conns_PowerStore::storeinfo.phtml"/>
-        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_info" template="Conns_PowerStore::Map.phtml" cacheable="false" />
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_left" template="Conns_PowerStore::storeinfo.phtml">
+            <block class="PowerReviews\ReviewDisplay\Block\Catalog\Product\ReviewDisplay" name="review-rating" template="Conns_PowerStore::starrating.phtml" />
+        </block>
+        <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_info" template="Conns_PowerStore::map.phtml" cacheable="false" >
+            <block class="PowerReviews\ReviewDisplay\Block\Catalog\Product\ReviewDisplay" name="review-container" template="Conns_PowerStore::reviewcontainer.phtml" />
+        </block>
         <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_right" template="Conns_PowerStore::yesmoney.phtml"/>
     </referenceBlock>
 </page>
