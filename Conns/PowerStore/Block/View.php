@@ -6,14 +6,18 @@ class View extends \BrainActs\StoreLocator\Block\View
 {
     protected $psimageHelper;
 
+    protected $hourCollectionFactory;
+
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \BrainActs\StoreLocator\Model\Locator $locator,
         \BrainActs\StoreLocator\Model\LocatorFactory $locatorFactory,
         \BrainActs\StoreLocator\Helper\Image $imageHelper,
         \Conns\PowerStore\Helper\Image $psimageHelper,
+        \Conns\PowerStore\Model\ResourceModel\StoreHours\Collection $hourCollectionFactory,
         array $data = []
     ) {
+        $this->hourCollectionFactory = $hourCollectionFactory;
         parent::__construct($context,$locator,$locatorFactory,$imageHelper,$data);
         $this->psimageHelper = $psimageHelper;
     }
@@ -23,13 +27,63 @@ class View extends \BrainActs\StoreLocator\Block\View
         return $this->psimageHelper->resize($source,$width,$height);
     }
 
+    public function getArrayOfDays() {
+        return array(
+            0 => 'Monday',
+            1 => 'Tuesday',
+            2 => 'Wednesday',
+            3 => 'Thursday',
+            4 => 'Friday',
+            5 => 'Saturday',
+            6 => 'Sunday'
+        );
+    }
+
     public function getAggregateHours(){
-        return [
-            'Mon-Tue' => '12:00am-12:00am',
-            'Wed' => '1:00am-12:00am',
-            'Thu' => '5:00am-12:00am',
-            'Fri-Sun' => '12:00am-12:00am'
-        ];
+        $hours = $this->hourCollectionFactory;
+        $hours->addFieldToFilter('locator_id',$this->getLocator()->getId())->setOrder('dow','ASC');
+        foreach ($hours as $value){
+            $value->setData('open',date('H:i:s',$value->getData('open')));
+            $value->setData('close',date('H:i:s',$value->getData('close')));
+        }
+        $days = array();
+        foreach ($hours as $data) {
+            $days[$data->getDow()] = $data;
+        }
+        $data = array();
+        if (count($days)) {
+            $dayArr = $this->getArrayOfDays();
+            $numDays = count($dayArr);
+            $groups = array();
+            $group = 0;
+            for ($i = 0; $i < $numDays; $i++) {
+                if (!isset($days[$i])) {
+                    if (isset($groups[$group])) {
+                        $group++;
+                    }
+                    continue;
+                }
+
+                if (!isset($groups[$group])) {
+                    $groups[$group] = array('start' => substr($dayArr[$i], 0, 3), 'end' => null, 'open' => $days[$i]['open'], 'close' => $days[$i]['close']);
+                } else {
+                    if (($groups[$group]['open'] == $days[$i]['open']) && ($groups[$group]['close'] == $days[$i]['close'])) {
+                        $groups[$group]['end'] = substr($dayArr[$i], 0, 3);
+                    } else {
+                        $group++;
+                        $groups[$group] = array('start' => substr($dayArr[$i], 0, 3), 'end' => null, 'open' => $days[$i]['open'], 'close' => $days[$i]['close']);
+                    }
+                }
+            }
+
+            foreach($groups as $group) {
+                $title = (!empty($group['end']) ? ($group['start'] . '-' . $group['end']) : $group['start']);
+                $value = date('g:ia', strtotime($group['open'])) . '-' . date('g:ia', strtotime($group['close']));
+                $data[$title] = $value;
+            }
+        }
+        return $data;
+
     }
 
     public function getLocatorUrl($identifier)
