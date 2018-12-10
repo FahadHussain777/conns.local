@@ -15,19 +15,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '0.0.2') < 0) {
             $tableName = $setup->getTable('brainacts_storelocator');
             if ($setup->getConnection()->isTableExists($tableName) == true) {
-                $columns = [
-                    'store_number' => [
-                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                        'nullable' => true,
-                        'comment' => 'Store Number',
-                    ],
+                $columns['store_number'] = [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'comment' => 'Store Number',
                 ];
-                $columns = [
-                    'extra_info' => [
-                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                        'nullable' => true,
-                        'comment' => 'Extra Description',
-                    ],
+                $columns['extra_info'] = [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'comment' => 'Extra Description',
                 ];
                 $connection = $setup->getConnection();
                 foreach ($columns as $name => $definition) {
