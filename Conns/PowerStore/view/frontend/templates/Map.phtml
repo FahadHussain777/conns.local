@@ -45,9 +45,6 @@
         $('.direction-button').on('click',function () {
             var dest = '<?php echo urlencode($address->getStreet()[0].' '.$address->getCity().','.$address->getRegionCode().' '.$address->getPostcode())?>';
             var state = $('#state').val();
-            // if(state === '-- Please select --'){
-            //     state ='';
-            // }
             var start = $('#street').val() + '%20' + $('#city').val() + ',%20' + state + '%20' + $('#postcode').val();
             console.log(dest);
             console.log(start);

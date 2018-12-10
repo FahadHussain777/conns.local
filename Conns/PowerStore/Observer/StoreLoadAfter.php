@@ -18,28 +18,20 @@ class StoreLoadAfter implements ObserverInterface
     }
     public function execute(Observer $observer)
     {
-        //echo "<pre>asa";
         $store = $observer->getEvent()->getDataObject();
         $hoursCollection = $this->storeHoursCollectionFactory->create();
-        $hoursCollection->addFieldToFilter('locator_id',$store->getId())->setOrder('dow','ASC');;
-        foreach ($hoursCollection as $hour){
-            $open = $hour['open'];
-            $open =  gmdate("H i s", $open);
-            $open = explode(' ',$open);
-            $close = $hour['close'];
-            $close =  gmdate("H i s", $close);
-            $close = explode(' ',$close);
-            $time[$hour['dow']] = [
-                'enabled' => 1,
-                'open' => [0=>$open[0],1=>$open[1],2=>$open[2]],
-                'close' => [0=>$close[0],1=>$close[1],2=>$close[2]]
-            ];
-            $store->setData('hours',$time);
-            $store->setData('fahad','asasasa');
-            $store->setData('website','asasasa');
-
+        $hoursCollection->addFieldToFilter('locator_id',$store->getId())->setOrder('dow','ASC');
+        $data = [];
+        if(count($hoursCollection) !== 0) {
+            foreach ($hoursCollection as $key => $hour) {
+                $data['enabled_'.$hour['dow']] = 1;
+                $open = gmdate("H,i,s", $hour['open']);
+                $data['open_'.$hour['dow']] = $open;
+                $close = gmdate("H,i,s", $hour['close']);
+                $data['close_'.$hour['dow']] = $close;
+            }
         }
-        //print_r(get_class_methods());exit;
+        $store->setData('hours',$data);
     }
 
 }
