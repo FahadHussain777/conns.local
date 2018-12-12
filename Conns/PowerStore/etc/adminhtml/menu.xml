@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © BrainActs Commerce OÜ. All rights reserved.
+  ~ See LICENSE.txt for license details.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <remove id="BrainActs_StoreLocator::locator" />
+        <add
+                id="Conns_PowerStore::main"
+                title="Conn's Store Locator"
+                translate="title"
+                module="Conns_PowerStore"
+                sortOrder="50"
+                parent="Magento_Backend::content"
+                resource="BrainActs_StoreLocator::locator"
+        />
+        <add
+                id="Conns_PowerStore::locator"
+                title="Stores"
+                translate="title"
+                module="Conns_PowerStore"
+                sortOrder="10" action="storelocator/locator"
+                parent="Conns_PowerStore::main"
+                resource="BrainActs_StoreLocator::locator"
+        />
+        <add
+                id="Conns_PowerStore::region"
+                title="Regions"
+                translate="title"
+                module="Conns_PowerStore"
+                sortOrder="20"
+                action="powerstore/region"
+                parent="Conns_PowerStore::main"
+                resource="BrainActs_StoreLocator::locator"
+        />
+    </menu>
+</config>
