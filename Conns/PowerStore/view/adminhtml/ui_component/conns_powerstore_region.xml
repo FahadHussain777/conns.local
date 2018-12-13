@@ -107,7 +107,7 @@
         <column name="enabled">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">
-                    Conns\Pronav\Ui\Component\Listing\Column\ConnsPronavItems\Status
+                    Conns\PowerStore\Ui\Component\Listing\Column\Status
                 </item>
                 <item name="config" xsi:type="array">
                     <item name="sortOrder" xsi:type="number">60</item>
