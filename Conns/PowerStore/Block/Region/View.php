@@ -94,6 +94,7 @@ class View extends \Magento\Framework\View\Element\Template
         $collection = $this->regionCollectionFactory->create();
         $collection->addFieldToFilter('enabled',1)->addOrder('region','asc')->addOrder('city','asc');
         $sortedRegions = $this->sortSpecial($collection);
+        $regions = [];
         foreach ($sortedRegions as $region) {
             $city = $region->getCity();
             if (empty($city)) {
