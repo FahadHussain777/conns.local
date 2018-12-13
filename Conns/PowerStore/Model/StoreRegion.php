@@ -15,4 +15,9 @@ class StoreRegion extends \Magento\Framework\Model\AbstractModel implements \Con
     {
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
+
+    public function checkIdentifier($identifier)
+    {
+        return $this->_getResource()->checkIdentifier($identifier);
+    }
 }

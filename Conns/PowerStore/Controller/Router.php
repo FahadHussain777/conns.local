@@ -11,6 +11,7 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
     public $locatorFactory;
     public $storeManager;
     public $response;
+    public $regionFactory;
     protected $locatorHelper;
 
     public function __construct(
@@ -18,10 +19,12 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\UrlInterface $url,
         \BrainActs\StoreLocator\Model\LocatorFactory $locatorFactory,
+        \Conns\PowerStore\Model\StoreRegionFactory $regionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \BrainActs\StoreLocator\Helper\Data $locatorHelper
     ) {
+        $this->regionFactory = $regionFactory;
         $this->actionFactory = $actionFactory;
         $this->eventManager = $eventManager;
         $this->url = $url;
@@ -46,42 +49,49 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
         $identifier = trim($request->getPathInfo(), '/');
         $locatorIdentifier = $this->helperLocator->getLocatorRoute();
         if ($identifier === $locatorIdentifier) {
-            $request->setModuleName('brainacts_storelocator')
-                ->setControllerName('locator')
-                ->setActionName('search');
+            $request->setModuleName('powerstore')
+                ->setControllerName('region')
+                ->setActionName('index');
 
             $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
 
             return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
         }
+        $urlSegments = explode('/',$identifier);
+        if($urlSegments[0] === $locatorIdentifier){
+            if($urlSegments[1] === 'search'){
+                $request->setModuleName('brainacts_storelocator')
+                    ->setControllerName('locator')
+                    ->setActionName('search');
+                $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+                return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
+            }
+            $regionKey = $this->regionFactory->create()->checkIdentifier($urlSegments[1]);
+            if(empty($regionKey)) return null;
+            if(count($urlSegments) == 2 ){
+                $request->setModuleName('powerstore')
+                        ->setControllerName('region')
+                        ->setActionName('view')->setParam('id',$regionKey);
+                $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+                return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
 
-        $pos = strpos($identifier, $locatorIdentifier);
-
-        if ($identifier === false) {
-            return null;
+            }
+            elseif (count($urlSegments) == 3){
+               $locator = $this->locatorFactory->create();
+               $locatorId = $locator->checkIdentifier($urlSegments[2], $this->storeManager->getStore()->getId());
+               if(empty($locatorId)) return null;
+               $request->setModuleName('brainacts_storelocator')
+                   ->setControllerName('locator')
+                   ->setActionName('view')
+                   ->setParam('locator_id', $locatorId);
+                $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+                $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+                return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
+            }
+            else{
+                return null;
+            }
         }
-
-        $identifier = str_replace($locatorIdentifier, '', $identifier);
-        $identifier = str_replace('/', '', $identifier);
-
-        /** @var \BrainActs\StoreLocator\Model\Locator $locator */
-        $locator = $this->locatorFactory->create();
-
-        $locatorId = $locator->checkIdentifier($identifier, $this->storeManager->getStore()->getId());
-
-
-        if (!$locatorId) {
-            return null;
-        }
-
-        $request->setModuleName('brainacts_storelocator')
-            ->setControllerName('locator')
-            ->setActionName('view')
-            ->setParam('locator_id', $locatorId);
-
-        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
-
-        return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
     }
 
 }

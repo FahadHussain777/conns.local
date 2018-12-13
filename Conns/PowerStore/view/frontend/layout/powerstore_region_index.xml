@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceBlock name="content">
+        <block class="Conns\PowerStore\Block\Region\View" name="left-sidebar" template="Conns_PowerStore::region/sidebar.phtml"/>
+        <block class="Conns\PowerStore\Block\Region\View" name="region-map" template="Conns_PowerStore::region/regionmap.phtml"/>
+    </referenceBlock>
+</page>
+

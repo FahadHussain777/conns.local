@@ -1,0 +1,67 @@
+<?php
+    $mapRegions = $block->getMapRegions();
+?>
+<div class="storelocator-region-map">
+    <div id="StoreLocatorMap" class="StoreLocatorMap-us">
+        <div id="us-map">
+            <div class="desktop-map">
+                <img src="<?php echo $this->getViewFileUrl('Conns_PowerStore::images/states-map.jpg');?>" width="708" height="435" border="0" usemap="#Map">
+                <map name="Map" id="Map">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['nevada']['region']?>" shape="poly" coords="114,241,120,243,134,146,60,133,50,183,110,257,115,241" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['nevada']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['arizona']['region']?>" shape="poly" coords="123,227,190,234,182,328,156,327,104,299,115,273,110,260,122,229" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['arizona']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['colorado']['region']?>" shape="poly" coords="195,169,284,173,284,237,190,235" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['colorado']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['new-mexico']['region']?>" shape="poly" coords="190,235,182,328,194,329,196,321,216,323,219,322,268,322,268,238" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['new-mexico']['url_key'])?>">
+                    <area title="Texas" shape="poly" coords="268,248,268,322,217,323,230,335,242,346,244,358,262,371,274,358,288,359,300,371,312,391,318,404,329,417,351,421,347,398,354,383,363,375,373,376,382,367,386,360,398,359,402,344,403,335,398,321,393,299,379,288,360,293,346,293,326,287,312,282,312,273,312,259,309,249,268,247" onclick="showCity()" onmouseover="this.style.cursor='pointer'" style="cursor: pointer;">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['oklahoma']['region']?>" shape="poly" coords="268,238,270,247,310,249,314,281,332,287,353,292,378,290,388,292,382,237,270,238" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['oklahoma']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['louisiana']['region']?>" shape="poly" coords="401,357,412,356,424,359,426,356,436,357,441,359,445,363,449,360,452,359,458,356,460,352,452,349,450,346,452,342,460,342,457,333,434,335,430,334,432,324,435,318,436,313,436,307,434,301,394,304,398,324,402,331,402,356" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['louisiana']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['mississippi']['region']?>" shape="poly" coords="433,301,435,284,440,276,443,267,460,266,474,265,473,316,476,339,460,342,457,333,432,334,432,322,439,313,433,301" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['mississippi']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['georgia']['region']?>" shape="poly" coords="526,329,523,323,507,260,523,258,539,256,542,264,545,266,555,274,566,285,573,297,576,300,573,310,572,314,571,319,569,322,566,324,525,329" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['georgia']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['south-carolina']['region']?>" shape="poly" coords="537,256,555,249,566,248,573,253,588,251,605,262,599,270,598,277,595,281,584,288,580,289,581,293,576,298,538,257" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['south-carolina']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['north-carolina']['region']?>" shape="poly" coords="604,261,612,260,614,254,619,247,624,244,624,242,621,239,624,238,623,236,621,233,624,230,630,230,632,225,628,223,620,222,622,218,624,217,629,214,557,226,551,235,537,244,525,257,538,255,546,249,557,248,573,247,573,253,598,254,605,260" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['north-carolina']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['tennessee']['region']?>" shape="poly" coords="452,240,445,266,468,264,482,262,504,261,516,258,526,255,530,248,535,244,545,239,548,236,553,231,555,226,452,240" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['tennessee']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['alabama']['region']?>" shape="poly" coords="474,265,509,262,524,324,485,329,488,337,477,341,473,308" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['alabama']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['virginia']['region']?>" shape="poly" coords="535,229,540,221,548,214,552,217,557,216,562,213,568,211,572,209,573,202,577,194,577,190,581,192,584,187,584,184,588,183,590,178,591,173,597,175,599,174,601,173,601,176,604,176,607,178,609,180,605,185,607,187,610,188,613,188,616,190,620,191,621,194,617,192,613,190,612,191,614,193,618,195,620,197,623,199,621,200,617,198,616,200,621,203,625,205,622,205,611,202,614,205,616,206,618,205,620,207,623,209,625,207,630,207,629,209,629,211,627,212,539,228" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['virginia']['url_key'])?>">
+                </map>
+            </div>
+            <div class="tab-map">
+                <img src="<?php echo $this->getViewFileUrl('Conns_PowerStore::images/states-map.jpg');?>" width="500" height="307" border="0" usemap="#Maptab">
+                <map name="Maptab" id="Maptab">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['nevada']['region']?>" shape="poly" coords="81,170,85,172,95,103,42,94,35,129,78,181,81,170" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['nevada']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['arizona']['region']?>" shape="poly" coords="87,160,134,165,129,232,110,231,73,211,81,193,78,184,86,162" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['arizona']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['colorado']['region']?>" shape="poly" coords="138,119,201,122,201,167,134,166" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['colorado']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['new-mexico']['region']?>" shape="poly" coords="134,166,129,232,137,232,138,227,153,228,155,227,189,227,189,168" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['new-mexico']['url_key'])?>">
+                    <area title="Texas" shape="poly" coords="189,175,189,227,153,228,162,237,171,244,172,253,185,262,194,253,203,254,212,262,220,276,225,285,232,294,248,297,245,281,250,270,256,265,263,266,270,259,273,254,281,254,284,243,285,237,281,227,278,211,268,203,254,207,244,207,230,203,220,199,220,193,220,183,218,176,189,174" onclick="showCity()" onmouseover="this.style.cursor='pointer'">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['oklahoma']['region']?>" shape="poly" coords="189,168,191,174,219,176,222,198,234,203,249,206,267,205,274,206,270,167,191,168" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['oklahoma']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['louisiana']['region']?>" shape="poly" coords="283,252,291,251,299,254,301,251,308,252,311,254,314,256,317,254,319,254,323,251,325,249,319,246,318,244,319,242,325,242,323,235,306,237,304,236,305,229,307,225,308,221,308,217,306,213,278,215,281,229,284,234,284,251" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['louisiana']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['mississippi']['region']?>" shape="poly" coords="306,213,307,201,311,195,313,189,325,188,335,187,334,223,336,239,325,242,323,235,305,236,305,227,310,221,306,213" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['mississippi']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['georgia']['region']?>" shape="poly" coords="371,232,369,228,358,184,369,182,381,181,383,186,385,188,392,194,400,201,405,210,407,212,405,219,404,222,403,225,402,227,400,229,371,232" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['georgia']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['south-carolina']['region']?>" shape="poly" coords="379,181,392,176,400,175,405,179,415,177,427,185,423,191,422,196,420,198,412,203,410,204,410,207,407,210,380,181" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['south-carolina']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['north-carolina']['region']?>" shape="poly" coords="427,184,432,184,434,179,437,174,441,172,441,171,439,169,441,168,440,167,439,165,441,162,445,162,446,159,444,157,438,157,439,154,441,153,444,151,393,160,389,166,379,172,371,181,380,180,386,176,393,175,405,174,405,179,422,179,427,184" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['north-carolina']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['tennessee']['region']?>" shape="poly" coords="319,169,314,188,331,186,340,185,356,184,364,182,371,180,374,175,378,172,385,169,387,167,391,163,392,160,319,169" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['tennessee']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['alabama']['region']?>" shape="poly" coords="335,187,359,185,370,229,343,232,345,238,337,241,334,217" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['alabama']['url_key'])?>">
+                    <area title="<?=/*@escapeNotVerified*/$mapRegions['virginia']['region']?>" shape="poly" coords="378,162,381,156,387,151,390,153,393,152,397,150,401,149,404,148,405,143,407,137,407,134,410,136,412,132,412,130,415,129,417,126,417,122,422,124,423,123,424,122,424,124,427,124,429,126,430,127,427,131,429,132,431,133,433,133,435,134,438,135,439,137,436,136,433,134,432,135,434,136,436,138,438,139,440,140,439,141,436,140,435,141,439,143,441,145,439,145,431,143,434,145,435,145,436,145,438,146,440,148,441,146,445,146,444,148,444,149,443,150,381,161" href="<?=/*@escapeNotVerified*/$block->getRegionPageUrl($mapRegions['virginia']['url_key'])?>">
+                </map>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showCity(){
+            var divCity = document.getElementById('showCityForRegion');
+            if (divCity.style.display != 'none') {
+                divCity.style.display = 'none';
+                jQuery('html,body').animate({
+                        scrollTop: jQuery("html").offset().top},
+                    'slow');
+            }
+            else {
+                divCity.style.display = 'block';
+                jQuery('html,body').animate({
+                        scrollTop: jQuery(".choose-region5").offset().top},
+                    'slow');
+            }
+            jQuery("#menu_item_texas span:first ").toggleClass("open");
+            jQuery("#menu_item_texas").toggleClass("open");
+
+        }
+    </script>
+</div>

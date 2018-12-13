@@ -5,4 +5,5 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="BrainActs\StoreLocator\Controller\Router" type="Conns\PowerStore\Controller\Router"/>
+    <preference for="BrainActs\StoreLocator\Block\Search\Filter" type="Conns\PowerStore\Block\Search\Filter"/>
 </config>

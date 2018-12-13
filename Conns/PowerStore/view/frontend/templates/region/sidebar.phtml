@@ -1,0 +1,53 @@
+<?php
+   $_regions = $block->getAllRegions();
+?>
+<div class="col-left-sidebar-container">
+    <div id="row-form">
+        <form action="<?php echo $block->getSearchPageUrl();?>" method="post" id="searchRadius" name="searchRadius">
+            <strong><span>Enter Zip Code OR City, State and Select Search Radius </span></strong>
+            <input type="text" name="zip_code" id="zip_code"/>
+            <select  class="input-text" name="distance" id="distance">
+                <?php $distanceCollection = $block->getAvailableDistance()?>
+                <?php foreach ($distanceCollection as $item):?>
+                    <option value="<?php echo $block->escapeHtml($item)?>"<?php if ($item==$block->getDefaultDistance()):?>selected="selected"<?php endif;?>><?php echo $block->escapeHtml($item)?> <?php echo $block->getUnit($item)?></option>
+                <?php endforeach;?>
+            </select>
+            <button class="action primary" type="submit">Find Store</button>
+        </form>
+    </div>
+    <div id="row-region-list">
+        <h4><?= /*@escapedNotVerified*/__('Choose Your Region') ?></h4>
+        <dl>
+            <?php $rowCount = 1;?>
+            <?php foreach($_regions as $regionName => $region): ?>
+                <?php $item_id = 'menu_item_' . preg_replace('/[^a-zA-Z]/', '_', strtolower($regionName)); ?>
+                <dt class="choose-region<?php echo $rowCount;?>">
+                    <?php if (isset($region['id']) && $region['url_key'] !== 'all'): ?>
+                        <a href="<?= /*@escapedNotVerified*/$block->getRegionPageUrl($region['url_key']) ?>" >
+                            <span><?php echo $regionName ?></span>
+                        </a>
+                    <?php elseif(isset($region['id']) && $region['url_key'] == 'all'): ?>
+                        <a href="<?= /*@escapedNotVerified*/$block->getAllRegionPageUrl() ?>" >
+                            <span><?php echo $regionName ?></span>
+                        </a>
+                    <?php else: ?>
+                        <span class="close"><?php echo $regionName ?></span>
+                    <?php endif; ?>
+                </dt>
+                <?php if (isset($region['cities'])): ?>
+                    <dd id="showCityForRegion">
+                        <dl>
+                            <?php foreach($region['cities'] as $cityName => $city): ?>
+                                <dt>
+                                    <a href="<?= /*@escapedNotVerified*/$block->getRegionPageUrl($city['url_key'])?>">
+                                        <span><?php echo $cityName ?></span>
+                                    </a>
+                                </dt>
+                            <?php endforeach ?>
+                        </dl>
+                    </dd>
+                <?php endif ?><?php $rowCount++;
+            endforeach; ?>
+        </dl>
+    </div>
+</div>
