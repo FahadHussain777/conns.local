@@ -90,8 +90,10 @@ class VisitingHours extends Generic implements TabInterface
 
         }
         $hours = $this->getLocator()->getHours();
-        $data = array_merge($hours,$this->getLocator()->getData());
-        $form->addValues($data);
+        if(!empty($hours)){
+            $data = array_merge($hours,$this->getLocator()->getData());
+            $form->addValues($data);
+        }
         $this->setForm($form);
         return parent::_prepareForm();
     }

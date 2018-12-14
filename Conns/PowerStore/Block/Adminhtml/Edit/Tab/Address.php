@@ -139,6 +139,7 @@ class Address extends Generic implements TabInterface
                 'label' => __('Latitude'),
                 'title' => __('Latitude'),
                 'required' => true,
+                'class'     => 'required-entry validate-number'
             ]
         );
 
@@ -150,6 +151,7 @@ class Address extends Generic implements TabInterface
                 'label' => __('Longitude'),
                 'title' => __('Longitude'),
                 'required' => true,
+                'class'     => 'required-entry validate-number'
             ]
         );
 

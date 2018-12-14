@@ -1,7 +1,5 @@
 <?php
-
 namespace Conns\PowerStore\Controller;
-
 class Router extends \BrainActs\StoreLocator\Controller\Router
 {
     public $helperLocator;
@@ -13,7 +11,6 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
     public $response;
     public $regionFactory;
     protected $locatorHelper;
-
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -32,7 +29,6 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
         $this->storeManager = $storeManager;
         $this->response = $response;
         $this->helperLocator = $locatorHelper;
-
         parent::__construct(
             $actionFactory,
             $eventManager,
@@ -41,9 +37,8 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
             $storeManager,
             $response,
             $locatorHelper
-            );
+        );
     }
-
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
         $identifier = trim($request->getPathInfo(), '/');
@@ -52,9 +47,7 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
             $request->setModuleName('powerstore')
                 ->setControllerName('region')
                 ->setActionName('index');
-
             $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
-
             return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
         }
         $urlSegments = explode('/',$identifier);
@@ -70,20 +63,19 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
             if(empty($regionKey)) return null;
             if(count($urlSegments) == 2 ){
                 $request->setModuleName('powerstore')
-                        ->setControllerName('region')
-                        ->setActionName('view')->setParam('id',$regionKey);
+                    ->setControllerName('region')
+                    ->setActionName('view')->setParam('id',$regionKey);
                 $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
                 return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
-
             }
             elseif (count($urlSegments) == 3){
-               $locator = $this->locatorFactory->create();
-               $locatorId = $locator->checkIdentifier($urlSegments[2], $this->storeManager->getStore()->getId());
-               if(empty($locatorId)) return null;
-               $request->setModuleName('brainacts_storelocator')
-                   ->setControllerName('locator')
-                   ->setActionName('view')
-                   ->setParam('locator_id', $locatorId);
+                $locator = $this->locatorFactory->create();
+                $locatorId = $locator->checkRegionIdentifier($urlSegments[2], $regionKey,$this->storeManager->getStore()->getId());
+                if(empty($locatorId)) return null;
+                $request->setModuleName('brainacts_storelocator')
+                    ->setControllerName('locator')
+                    ->setActionName('view')
+                    ->setParam('locator_id', $locatorId);
                 $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
                 $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
                 return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
@@ -93,5 +85,4 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
             }
         }
     }
-
 }

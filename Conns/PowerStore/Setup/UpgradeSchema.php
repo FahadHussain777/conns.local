@@ -25,6 +25,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'nullable' => true,
                     'comment' => 'Extra Description',
                 ];
+                $columns['region_assigned'] = [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    'nullable' => true,
+                    'comment' => 'Associated Region',
+                ];
                 $connection = $setup->getConnection();
                 foreach ($columns as $name => $definition) {
                     $connection->addColumn($tableName, $name, $definition);

@@ -155,6 +155,20 @@ class Settings extends Generic implements TabInterface
             ]
         );
 
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $regions = $objectManager->create(\Conns\PowerStore\Ui\Component\Form\Store\Option\Regions::class)->optionArray();
+        $fieldset->addField(
+            'region_assigned',
+            'select',
+            [
+                'name' => 'region_assigned',
+                'label' => __('Region Assigned'),
+                'title' => __('Region Assigned'),
+                'options' => $regions
+            ]
+        );
+
+
         $fieldset->addField(
             'short_description',
             'textarea',
