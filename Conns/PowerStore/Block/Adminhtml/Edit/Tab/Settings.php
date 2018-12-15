@@ -164,6 +164,7 @@ class Settings extends Generic implements TabInterface
                 'name' => 'region_assigned',
                 'label' => __('Region Assigned'),
                 'title' => __('Region Assigned'),
+                'required' => true,
                 'options' => $regions
             ]
         );

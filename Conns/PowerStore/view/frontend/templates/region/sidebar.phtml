@@ -3,16 +3,62 @@
 ?>
 <div class="col-left-sidebar-container">
     <div id="row-form">
-        <form action="<?php echo $block->getSearchPageUrl();?>" method="post" id="searchRadius" name="searchRadius">
-            <strong><span>Enter Zip Code OR City, State and Select Search Radius </span></strong>
-            <input type="text" name="zip_code" id="zip_code"/>
-            <select  class="input-text" name="distance" id="distance">
-                <?php $distanceCollection = $block->getAvailableDistance()?>
-                <?php foreach ($distanceCollection as $item):?>
-                    <option value="<?php echo $block->escapeHtml($item)?>"<?php if ($item==$block->getDefaultDistance()):?>selected="selected"<?php endif;?>><?php echo $block->escapeHtml($item)?> <?php echo $block->getUnit($item)?></option>
-                <?php endforeach;?>
-            </select>
-            <button class="action primary" type="submit">Find Store</button>
+        <form class="storelocator-filter" autocomplete="off" id="storelocator-filter" action="<?=/*@escapedNotVerified*/$block->getSearchPageUrl()?>" novalidate>
+            <h4><?php echo __('Enter Zip Code OR City, State and Select Search Radius')?></h4>
+            <fieldset class="fieldset" id="advanced-search-block">
+                <div class="field current-page">
+                    <div class="control">
+                        <input type="text" name="searchCriteria[current_page]" id="searchCriteria[current_page]" value="1" hidden/>
+                    </div>
+                </div>
+                <div class="field page-size">
+                    <div class="control">
+                        <input type="text" name="searchCriteria[page_size]" id="searchCriteria[page_size]" value="10" hidden/>
+                    </div>
+                </div>
+                <div class="page">
+                    <div class="control">
+                        <input type="text" name="page" id="page" value="1" hidden/>
+                    </div>
+                </div>
+                <div class="field postcode">
+                    <div class="control">
+                        <input type="text" name="searchCriteria[filter_groups][1][filters][0][field]" id="searchCriteria[filter_groups][1][filters][0][field]" value="postcode" hidden/>
+                    </div>
+                </div>
+                <div class="field postcode-value">
+                    <div class="control">
+                        <input type="text" name="searchCriteria[filter_groups][1][filters][0][value]" id="form-postcode"  data-role="filter_field" class="input-text disabled" <?php if(isset($zip)):?>value="<?=/*@escapedNorVerified*/$zip?>"<?php endif;?>/>
+                    </div>
+                </div>
+                <div class="error-message" style="display: none"><strong><p style="color: red">Store not found. Please enter different Zip Code OR City, State.</p><strong></div>
+                <div class="field distance">
+                    <div class="control">
+                        <input type="text" name="searchCriteria[filter_groups][1][filters][1][field]" id="searchCriteria[filter_groups][1][filters][1][field]" value="distance" hidden/>
+                    </div>
+                </div>
+                <div class="field distance-value">
+                    <div class="control">
+                        <select  class="input-text" name="searchCriteria[filter_groups][1][filters][1][value]" id="form-distance"  data-role="filter_field" >
+                            <?php $distanceCollection = $block->getAvailableDistance()?>
+                            <?php foreach ($distanceCollection as $item):?>
+                                <option
+                                        value="<?php echo $block->escapeHtml($item)?>"
+                                    <?php if ($item==$block->getDefaultDistance()):?>
+                                        selected="selected"
+                                    <?php endif;?>
+                                >
+                                    <?php echo $block->escapeHtml($item)?> <?php echo $block->getUnit($item)?>
+                                </option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-action">
+                    <input class="action primary submit" type="button" value="Submit"/>
+                </div>
+                <button class="verify-submit" type="submit" style="visibility: hidden"></button>
+            </fieldset>
         </form>
     </div>
     <div id="row-region-list">
@@ -51,3 +97,32 @@
         </dl>
     </div>
 </div>
+<script type="text/javascript">
+    require(['jquery'],function ($) {
+        $('.submit').on('click',function () {
+            var postcode = $('#form-postcode').val();
+            var distance = $('#form-distance').val();
+            $.ajax({
+                showLoader: true,
+                url: "<?=/*@escapedNotVerified*/ $block->getCheckResultsUrl()?>",
+                data:{
+                    'postcode': postcode,
+                    'distance': distance
+                },
+                type: "GET",
+                dataType: 'json',
+                success: function (data,status,xhr) {
+                    if(data.success == true){
+                        $('.verify-submit').click();
+                    }else{
+                        $('.error-message').fadeIn(1000);
+                        $('.error-message').fadeOut(4000);
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    alert('Request Failed');
+                }
+            });
+        });
+    });
+</script>

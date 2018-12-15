@@ -3,8 +3,8 @@
  * Copyright © Conn's. All rights reserved.
  * See LICENSE.txt for license details.
  */
-$zip = $block->request->getParam('zip_code');
-$distance = $block->request->getParam('distance');
+$zip = $block->request->getParam('searchCriteria')['filter_groups'][1]['filters'][0]['value'];
+$distance = $block->request->getParam('searchCriteria')['filter_groups'][1]['filters'][1]['value'];
 ?>
 <?php /** @var \Conns\PowerStore\Block\Search\Filter $block  */?>
 
@@ -73,15 +73,3 @@ $distance = $block->request->getParam('distance');
         </div>
     </fieldset>
 </form>
-<?php if(isset($zip)):?>
-    <script type="text/javascript">
-        require(['jquery'],function ($) {
-            var zipcode = $('#postcode').val();
-            if(zipcode.length !== 0){
-                window.setTimeout(function () {
-                    $('.action.primary').click();
-                },750)
-            }
-        })
-    </script>
-<?php endif;?>
