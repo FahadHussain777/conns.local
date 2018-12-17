@@ -98,7 +98,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    require(['jquery'],function ($) {
+    require(['jquery','Magento_Ui/js/modal/alert'],function ($,alert) {
         $('.submit').on('click',function () {
             var postcode = $('#form-postcode').val();
             var distance = $('#form-distance').val();
@@ -123,6 +123,44 @@
                     alert('Request Failed');
                 }
             });
+        });
+        $(document).ready(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+                    $.ajax({
+                        showLoader: false,
+                        url: "<?=/*@escapedNotVerified*/ $block->getZipRequestUrl()?>",
+                        data:{
+                            'lat': lat,
+                            'long': long
+                        },
+                        type: "POST",
+                        dataType: 'json',
+                        success: function (data,status,xhr) {
+                            if(data.success == true){
+                                $('#form-postcode').val(data.zip);
+                                $('.verify-submit').click();
+                            }else{
+                                alert({
+                                    content: "Unable to find zip code",
+                                    actions: {}
+                                    });
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) {
+                            alert('Request Failed');
+                        }
+                    });
+                });
+            }
+            else{
+                alert({
+                    content: "Unable to find zip code",
+                    actions: {}
+                });
+            }
         });
     });
 </script>

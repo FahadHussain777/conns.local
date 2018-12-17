@@ -34,7 +34,7 @@ class CheckResults extends Action
                 'distance' => $distance
             );
             $data = [
-                'success' => false,
+                'success' => true,
                 'data' => $test
             ];
             return $result->setData($data);

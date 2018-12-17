@@ -45,6 +45,10 @@ class View extends \Magento\Framework\View\Element\Template
         return $this->getBaseUrl().'powerstore/locator/checkresults';
     }
 
+    public function getZipRequestUrl(){
+        return $this->getBaseUrl().'powerstore/locator/geolocation';
+    }
+
     public function getRegionPageUrl($urlKey){
         return $this->getBaseUrl().$this->locatorHelper->getLocatorRoute().'/'.$urlKey;
     }
