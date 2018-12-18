@@ -28,12 +28,16 @@ class GeoLocation extends Action
         $latitude = $this->getRequest()->getParam('lat');
         $longitude = $this->getRequest()->getParam('long');
         $responseAPI = $this->helper->getAddressByLocation($latitude,$longitude);
+        $gotIt = 0;
         foreach ($responseAPI['results'] as $result){
             foreach ($result['address_components'] as $address){
                 if(in_array('postal_code',$address['types'])){
                     $postalCode = $address['long_name'];
+                    $gotIt = 1;
                 }
+                if($gotIt == 1)break;
             }
+            if($gotIt == 1)break;
         }
         if(isset($postalCode)){
             $data = [
