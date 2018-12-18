@@ -32,4 +32,12 @@ class Locator extends \BrainActs\StoreLocator\Model\Locator
         $select->limit(1);
         return $this->connection->getConnection()->fetchOne($select);
     }
+
+    public function getStoresByRegion($region_id){
+        $select = $this->connection->getConnection()->select()
+            ->from('brainacts_storelocator')
+            ->where('region_assigned = ?', $region_id)
+            ->where('is_active = ?', 1);
+        return $this->connection->getConnection()->fetchAll($select);
+    }
 }

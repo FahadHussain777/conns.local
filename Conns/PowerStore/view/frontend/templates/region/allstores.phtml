@@ -1,0 +1,91 @@
+<?php
+//echo "<pre>";print_r($block->getRegionCollection()->toArray()); exit;
+$_regions = $block->getRegionCollection();
+?>
+<div class="column-main">
+<table class="storelocator-region-table">
+<?php foreach ($_regions as $region):?>
+    <?php if( isset($region['url_key']) && $region['url_key'] != "allsites"):?>
+        <?php if(1):?>
+            <tr>
+                <th><?=/*@escapedNotVerified*/$region['region']?> Stores</th>
+                <th>Address</th>
+                <th>Hours</th>
+                <th>Contact</th>
+            </tr>
+        <?php endif;?>
+        <?php
+        $regionId = $region['id'];
+        $stores = $block->getRelatedStores($regionId);
+        ;?>
+        <?php foreach ($stores as $store):?>
+            <?php
+                $storeModel = $block->getStore($store['locator_id']);
+                $address = $storeModel->getAddress();
+                $_hours = $block->getAggregateHours($store['locator_id']);
+            ?>
+            <tr>
+                <td>
+                    <div class="title">
+                        <a href="<?=/*@escapedNotVerified*/$block->getStoreUrl($region['url_key'],$storeModel->getIdentifier())?>">
+                            <?=/*@escpaedNotVerified*/$storeModel->getName()?>
+                        </a></br>
+                        <span style="color: red"><?=/*@escpaedNotVerified*/$storeModel->getExtraInfo()?></span>
+                    </div>
+                </td>
+                <td>
+                    <div class="address">
+                        <span><?= $address->getStreet()[0]?></span><br>
+                        <span><span><?= $address->getCity()?></span>, <span ><?= $address->getRegionCode()?> </span><?= $address->getPostcode()?></span>
+                    </div>
+                </td>
+                <td>
+                    <div class="store-hours">
+                        <div>
+                            <?php foreach(array_keys($_hours) as $title): ?>
+                                <span><?php echo $title ?></span>
+                            <?php endforeach ?>
+                        </div>
+                        <div>
+                            <?php foreach($_hours as $key => $value): ?>
+                                <span><?php echo $value ?></span>
+                                <meta content="<?php echo $key.' '.$value ?>">
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="Contact">
+                        <div>
+                            <span>Phone</span>
+                        </div>
+                        <div>
+                            <span><a href="tel:+1-<?=$address->getTelephone()?>"><?= $address->getTelephone()?></a></span>
+                        </div>
+                        <div>
+                            <a href="<?=/*@escapedNotVerified*/$block->getStoreUrl($region['url_key'],$storeModel->getIdentifier())?>">
+                                Visit Store Page »
+                            </a>
+                        </div>
+                        <div>
+                            <?php
+                            $dest = urlencode($address->getStreet()[0]." " .$address->getCity(). "," . $address->getRegionCode(). " " . $address->getPostcode());
+                            ?>
+                            <a href="<?=/*@escapedNotVerified*/"https://maps.google.com/maps?daddr=".$dest?>" target="_blank">
+                                Get Directions »
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach;?>
+    <?php endif;?>
+<?php endforeach;?>
+</table>
+</div>
+<div class="column-main-bottom">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('all-stores-bottom')->toHtml();?>
+</div>
+<div class="column-right">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('yes-money-image')->toHtml();?>
+</div>

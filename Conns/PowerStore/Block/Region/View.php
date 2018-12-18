@@ -54,7 +54,7 @@ class View extends \Magento\Framework\View\Element\Template
     }
 
     public function getAllRegionPageUrl(){
-        return $this->getBaseUrl().$this->locatorHelper->getLocatorRoute().'/allstores';
+        return $this->getBaseUrl().$this->locatorHelper->getLocatorRoute().'/all';
     }
 
     public function getMapRegions(){
@@ -125,7 +125,7 @@ class View extends \Magento\Framework\View\Element\Template
         $collectionNew = [];
         $viewAllObj = null;
         foreach($collection as $region){
-            if($region->getUrlKey() == "all"){
+            if($region->getUrlKey() == "allsites"){
                 $viewAllObj = $region;
             }else{
                 $collectionNew[] = $region;

@@ -5,15 +5,20 @@
     <div id="row-form">
         <form class="storelocator-filter" autocomplete="off" id="storelocator-filter" action="<?=/*@escapedNotVerified*/$block->getSearchPageUrl()?>" novalidate>
             <h4><?php echo __('Enter Zip Code OR City, State and Select Search Radius')?></h4>
-            <fieldset class="fieldset" id="advanced-search-block">
+            <fieldset class="fieldset" id="simple-search-block">
+                <div class="field search-type">
+                    <div class="control">
+                        <input type="text" name="search_type" id="search_type" value="simple" hidden/>
+                    </div>
+                </div>
                 <div class="field current-page">
                     <div class="control">
-                        <input type="text" name="searchCriteria[current_page]" id="searchCriteria[current_page]" value="1" hidden/>
+                        <input type="text" name="current_page" id="current_page" value="1" hidden/>
                     </div>
                 </div>
                 <div class="field page-size">
                     <div class="control">
-                        <input type="text" name="searchCriteria[page_size]" id="searchCriteria[page_size]" value="10" hidden/>
+                        <input type="text" name="page_size" id="page_size" value="10" hidden/>
                     </div>
                 </div>
                 <div class="page">
@@ -21,25 +26,15 @@
                         <input type="text" name="page" id="page" value="1" hidden/>
                     </div>
                 </div>
-                <div class="field postcode">
+                <div class="field search">
                     <div class="control">
-                        <input type="text" name="searchCriteria[filter_groups][1][filters][0][field]" id="searchCriteria[filter_groups][1][filters][0][field]" value="postcode" hidden/>
-                    </div>
-                </div>
-                <div class="field postcode-value">
-                    <div class="control">
-                        <input type="text" name="searchCriteria[filter_groups][1][filters][0][value]" id="form-postcode"  data-role="filter_field" class="input-text disabled" <?php if(isset($zip)):?>value="<?=/*@escapedNorVerified*/$zip?>"<?php endif;?>/>
+                        <input type="text" name="search" id="form-search" />
                     </div>
                 </div>
                 <div class="error-message" style="display: none"><strong><p style="color: red">Store not found. Please enter different Zip Code OR City, State.</p><strong></div>
-                <div class="field distance">
-                    <div class="control">
-                        <input type="text" name="searchCriteria[filter_groups][1][filters][1][field]" id="searchCriteria[filter_groups][1][filters][1][field]" value="distance" hidden/>
-                    </div>
-                </div>
                 <div class="field distance-value">
                     <div class="control">
-                        <select  class="input-text" name="searchCriteria[filter_groups][1][filters][1][value]" id="form-distance"  data-role="filter_field" >
+                        <select  class="input-text" name="distance" id="form-distance" >
                             <?php $distanceCollection = $block->getAvailableDistance()?>
                             <?php foreach ($distanceCollection as $item):?>
                                 <option
@@ -55,7 +50,7 @@
                     </div>
                 </div>
                 <div class="filter-action">
-                    <input class="action primary submit" type="button" value="Submit"/>
+                    <input class="action primary submit" type="button" value="Find Store"/>
                 </div>
                 <button class="verify-submit" type="submit" style="visibility: hidden"></button>
             </fieldset>
@@ -68,11 +63,11 @@
             <?php foreach($_regions as $regionName => $region): ?>
                 <?php $item_id = 'menu_item_' . preg_replace('/[^a-zA-Z]/', '_', strtolower($regionName)); ?>
                 <dt class="choose-region<?php echo $rowCount;?>">
-                    <?php if (isset($region['id']) && $region['url_key'] !== 'all'): ?>
+                    <?php if (isset($region['id']) && $region['url_key'] !== 'allsites'): ?>
                         <a href="<?= /*@escapedNotVerified*/$block->getRegionPageUrl($region['url_key']) ?>" >
                             <span><?php echo $regionName ?></span>
                         </a>
-                    <?php elseif(isset($region['id']) && $region['url_key'] == 'all'): ?>
+                    <?php elseif(isset($region['id']) && $region['url_key'] == 'allsites'): ?>
                         <a href="<?= /*@escapedNotVerified*/$block->getAllRegionPageUrl() ?>" >
                             <span><?php echo $regionName ?></span>
                         </a>
@@ -100,7 +95,7 @@
 <script type="text/javascript">
     require(['jquery','Magento_Ui/js/modal/alert'],function ($,alert) {
         $('.submit').on('click',function () {
-            var postcode = $('#form-postcode').val();
+            var postcode = $('#form-search').val();
             var distance = $('#form-distance').val();
             $.ajax({
                 showLoader: true,
@@ -140,7 +135,8 @@
                         dataType: 'json',
                         success: function (data,status,xhr) {
                             if(data.success == true){
-                                $('#form-postcode').val(data.zip);
+                                console.log(data.zip);
+                                $('#form-search').val(data.zip);
                                 $('.verify-submit').click();
                             }else{
                                 alert({

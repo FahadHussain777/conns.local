@@ -60,8 +60,16 @@ class Router extends \BrainActs\StoreLocator\Controller\Router
                 return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
             }
             $regionKey = $this->regionFactory->create()->checkIdentifier($urlSegments[1]);
-            if(empty($regionKey)) return null;
+            if(empty($regionKey) && $urlSegments[1] != 'all') return null;
             if(count($urlSegments) == 2 ){
+                if($urlSegments[1] == 'all'){
+                    $request->setModuleName('powerstore')
+                        ->setControllerName('region')
+                        ->setActionName('all');
+                    $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+                    return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
+
+                }
                 $request->setModuleName('powerstore')
                     ->setControllerName('region')
                     ->setActionName('view')->setParam('id',$regionKey);
