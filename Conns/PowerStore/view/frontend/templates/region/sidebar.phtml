@@ -97,27 +97,35 @@
         $('.submit').on('click',function () {
             var postcode = $('#form-search').val();
             var distance = $('#form-distance').val();
-            $.ajax({
-                showLoader: true,
-                url: "<?=/*@escapedNotVerified*/ $block->getCheckResultsUrl()?>",
-                data:{
-                    'postcode': postcode,
-                    'distance': distance
-                },
-                type: "GET",
-                dataType: 'json',
-                success: function (data,status,xhr) {
-                    if(data.success == true){
-                        $('.verify-submit').click();
-                    }else{
-                        $('.error-message').fadeIn(1000);
-                        $('.error-message').fadeOut(4000);
+            if(postcode == ''){
+                alert({
+                    content: "Please enter Zipcode, City or State",
+                    actions: {}
+                });
+            }
+            else {
+                $.ajax({
+                    showLoader: true,
+                    url: "<?=/*@escapedNotVerified*/ $block->getCheckResultsUrl()?>",
+                    data:{
+                        'postcode': postcode,
+                        'distance': distance
+                    },
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (data,status,xhr) {
+                        if(data.success == true){
+                            $('.verify-submit').click();
+                        }else{
+                            $('.error-message').fadeIn(1000);
+                            $('.error-message').fadeOut(4000);
+                        }
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        alert('Request Failed');
                     }
-                },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    alert('Request Failed');
-                }
-            });
+                });
+            }
         });
         $(document).ready(function () {
             if (navigator.geolocation) {
