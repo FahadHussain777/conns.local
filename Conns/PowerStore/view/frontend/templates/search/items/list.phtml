@@ -1,0 +1,114 @@
+<?php
+/**
+ * Copyright © Conn's. All rights reserved.
+ */
+?>
+<?php /** @var \Conns\PowerStore\Block\Search\Result $block ; */ ?>
+
+<?php
+$items = $block->getLocatorItems();
+?>
+
+<div class="storelocator-list" data-role="result">
+    <?php if (count($items)): ?>
+        <?php /** @var \BrainActs\StoreLocator\Model\Locator $item */ ?>
+        <?php
+            $iterator = 0;
+            $i = 65;
+            $st = 0;
+        ?>
+        <?php foreach ($items as $item): ?>
+            <?php if ($iterator % 3 == 0): ?>
+                <ul class="storelocator-items">
+            <?php endif; ?>
+            <li data-role="map-item" data-item-map='{"item":<?php echo $block->toJsonItem($item)?>}'>
+                <div class="tile">
+                    <div class="storelocator-store-information block">
+                        <?php if($item->getExtraInfo()):?>
+                            <p><?php echo $item->getExtraInfo()?></p>
+                        <?php endif;?>
+                    </div>
+                    <span class="mark-position-icon" style="">
+                        <span>
+                            <?php
+                                echo chr($i);
+                                if($i == 90){
+                                    $i = 97;
+                                }else if($i == 122){
+                                    $i = 49;
+                                }else{
+                                    $i++;
+                                }
+                                ?>
+                        </span>
+                    </span>
+                    <div class="storelocator-map-tile">
+                        <h3>
+                            <?php if ($block->isPersonalAllow() && $item->existUrl()): ?>
+                                <?php $url = $block->getStoreUrl($item->getRegionAssigned(),$item->getIdentiFier()); ?>
+                            <?php endif; ?>
+                            <a href="<?php echo $url;?>">
+                                <?php echo $block->escapeHtml($item->getName()) ?>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="storelocator-left-col">
+                        <div class="storelocator-store-address block">
+                            <p><?php echo $item->getAddress()->getAddressHtml() ?></p>
+                        </div>
+                        <div class="store-hours-title">
+                            <h4>Store Hours</h4>
+                            <?php $_hours = $block->getAggregateHours($item->getLocatorId()); ?>
+                            <div>
+                                <?php foreach(array_keys($_hours) as $title): ?>
+                                    <span><h4><?php echo $title ?></h4></span>
+                                <?php endforeach ?>
+                            </div>
+                            <div>
+                                <?php foreach($_hours as $key => $value): ?>
+                                    <span><?php echo $value ?></span>
+                                    <meta content="<?php echo $key.' '.$value ?>">
+                                <?php endforeach ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="storelocator-right-col">
+                        <div>
+                            <?php if ($block->isViewOnMap()): ?>
+                                <a href="<?php echo $block->getDirection($item) ?>"
+                                   target="_blank"><?php echo __('Get Direction') ?> &raquo;</a>
+                            <?php endif; ?>
+                            <?php if ($block->isPersonalAllow() && $item->existUrl()): ?>
+                                <a href="<?php echo $block->getStoreUrl($item->getRegionAssigned(),$item->getIdentiFier()); ?>">Visit Store Page &raquo;</a>
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <?php echo $block->getUnit($item->getDistance()) ?>
+                        </div>
+                        <div>
+                            <div class="yes-promo-button yes-promo-button-prequal">
+                                <a href="<?=/*@escapedNotVerified*/$block->getBaseUrl()?>yes-money-credit">
+                                    <span>PREQUALIFY NOW</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <?php if ($iterator % 3 == 2 || $iterator == count($items) - 1): ?>
+                </ul>
+            <?php endif; ?>
+            <?php $iterator++; ?>
+        <?php endforeach; ?>
+
+
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    <?php else: ?>
+        <p><?php echo $block->getNotFoundMessage() ?></p>
+    <?php endif ?>
+</div>
+<script>
+
+</script>

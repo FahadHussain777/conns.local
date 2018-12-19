@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
-<!--
-  ~ Copyright © BrainActs Commerce OÜ. All rights reserved.
-  ~ See LICENSE.txt for license details.
-  -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="locator.search.filter">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">Conns_PowerStore::search/filter.phtml</argument>
-            </action>
-        </referenceBlock>
+        <referenceBlock name="locator.search.container" remove="true"/>
+        <referenceContainer name="content">
+            <block class="BrainActs\StoreLocator\Block\Search" name="powerstore.locator.search.container" template="Conns_PowerStore::search/container.phtml" cacheable="false">
+                <block class="BrainActs\StoreLocator\Block\Search\Filter" name="locator.search.filter"  template="Conns_PowerStore::search/filter.phtml" cacheable="false"/>
+                <block class="BrainActs\StoreLocator\Block\Search\Map" name="locator.search.map" ifconfig="brainacts_storelocator/search/allow_map" template="BrainActs_StoreLocator::search/map.phtml" cacheable="false"/>
+                <block class="Conns\PowerStore\Block\Search\Result" name="locator.search.result" cacheable="false"/>
+            </block>
+        </referenceContainer>
     </body>
 </page>

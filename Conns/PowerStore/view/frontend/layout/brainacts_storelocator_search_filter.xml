@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © BrainActs Commerce OÜ. All rights reserved.
+  ~ See LICENSE.txt for license details.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceBlock name="locator.search.result" remove="true"/>
+            <block class="Conns\PowerStore\Block\Search\Result" name="powerstore.locator.search.result" cacheable="false"/>
+        </referenceContainer>
+        <referenceBlock name="authentication-popup" remove="true"/>
+    </body>
+</page>

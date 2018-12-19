@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © Conn's. All rights reserved.
+ */
+?>
+<div class="storelocator-map-tile">
+    <h4>
+        <a href="<?php echo $block->getStoreUrl();?>">
+            <?php echo $block->escapeHtml($block->getStoreName()) ?>
+        </a>
+    </h4>
+</div>
+<div class="storelocator-popup">
+    <div class="address">
+        <?php $address = $block->getAddress();?>
+        <span><?=/*@escapedNotVerified*/ $address['street']?>, <?=/*@escapedNotVerified*/ $address['city']?>, <?=/*@escapedNotVerified*/ $address['state']?> <?=/*@escapedNotVerified*/ $address['postal_code']?></span>
+    </div>
+    <div class="store-hours">
+        <?php $_hours = $block->getAggregateHours(); ?>
+        <h4>Store Hours</h4>
+        <div>
+            <?php foreach(array_keys($_hours) as $title): ?>
+                <span><b><?php echo $title ?></b></span>
+            <?php endforeach ?>
+        </div>
+        <div>
+            <?php foreach($_hours as $key => $value): ?>
+                <span><?php echo $value ?></span>
+                <meta content="<?php echo $key.' '.$value ?>">
+            <?php endforeach ?>
+        </div>
+    </div>
+    <div class="contact-info">
+        <h4>Contact Information</h4>
+        <span><strong>Phone: </strong><?=/*@escapedNotVerified*/ $address['telephone']?><span>
+    </div>
+    <div class="visit-store">
+        <a href="<?php echo $block->getStoreUrl(); ?>">Visit Store Page &raquo;</a>
+    </div>
+</div>

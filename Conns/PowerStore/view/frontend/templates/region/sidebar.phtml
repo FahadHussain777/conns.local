@@ -1,5 +1,5 @@
 <?php
-   $_regions = $block->getAllRegions();
+$_regions = $block->getAllRegions();
 ?>
 <div class="col-left-sidebar-container">
     <div id="row-form">
@@ -9,20 +9,8 @@
                 <div class="field search-type">
                     <div class="control">
                         <input type="text" name="search_type" id="search_type" value="simple" hidden/>
-                    </div>
-                </div>
-                <div class="field current-page">
-                    <div class="control">
                         <input type="text" name="current_page" id="current_page" value="1" hidden/>
-                    </div>
-                </div>
-                <div class="field page-size">
-                    <div class="control">
                         <input type="text" name="page_size" id="page_size" value="10" hidden/>
-                    </div>
-                </div>
-                <div class="page">
-                    <div class="control">
                         <input type="text" name="page" id="page" value="1" hidden/>
                     </div>
                 </div>
@@ -31,7 +19,7 @@
                         <input type="text" name="search" id="form-search" />
                     </div>
                 </div>
-                <div class="error-message" style="display: none"><strong><p style="color: red">Store not found. Please enter different Zip Code OR City, State.</p><strong></div>
+                <div class="error-message" style="display: none"><strong><p style="color: red">Store not found. Please enter different Zip Code OR City, State.</p></strong></div>
                 <div class="field distance-value">
                     <div class="control">
                         <select  class="input-text" name="distance" id="form-distance" >
@@ -150,7 +138,7 @@
                                 alert({
                                     content: "Unable to find zip code",
                                     actions: {}
-                                    });
+                                });
                             }
                         },
                         error: function (jqXhr, textStatus, errorMessage) {
@@ -165,6 +153,20 @@
                     actions: {}
                 });
             }
+        });
+    });
+</script>
+<script>
+    require(['jquery'],function($){
+        $(document).ready(function(){
+            $('#row-region-list dt.choose-region3').on("click",function(){
+                $(this).toggleClass('active');
+                $(this).next('#showCityForRegion').toggle();
+            });
+            $('#row-region-list dt.choose-region14').on("click",function(){
+                $(this).toggleClass('active');
+                $(this).next('#showCityForRegion').toggle();
+            });
         });
     });
 </script>

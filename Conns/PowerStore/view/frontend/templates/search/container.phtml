@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © BrainActs Commerce OÜ. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php
+/** @var \BrainActs\StoreLocator\Block\Search $block  */
+?>
+<script>
+    var configRegionJs = <?php echo $block->getRegionsJs();?>
+</script>
+
+<div class="storelocator-b-wrapper" data-mage-init='<?php echo $block->getJsonConfig()?>'>
+    <?php $description =  $block->getDescription();?>
+    <?php if (!empty($description)):?>
+    <div class="storelocator-b-description">
+        <p><?php echo $block->escapeHtml($description)?></p>
+    </div>
+    <?php endif;?>
+
+    <div class="column-wrapper">
+        <div class="col-left">
+            <div class="search-form">
+                <?php echo $block->getChildHtml('locator.search.filter') ?>
+            </div>
+            <div class="store-results">
+                <?php echo $block->getChildHtml('locator.search.result') ?>
+            </div>
+        </div>
+        <div class="col-right">
+            <?php echo $block->getChildHtml('locator.search.map') ?>
+        </div>
+    </div>
+</div>

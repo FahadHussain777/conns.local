@@ -28,7 +28,7 @@ $distance = $block->request->getParam('distance');
                         <option value="<?php echo $block->escapeHtml($item)?>"
                                 <?php if ($item==$block->getDefaultDistance() && !isset($distance)):?>
                                     selected="selected"
-                                <?php elseif(isset($distance)):?>
+                                <?php elseif($distance == $item):?>
                                     selected="selected"
                                 <?php endif;?>
                         >
