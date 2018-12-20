@@ -1,92 +1,94 @@
-<?php
-$_regions = $block->getRegionCollection();
-?>
-<div class="store-all">
-    <div class="column-main">
-        <table class="storelocator-region-table">
-            <?php foreach ($_regions as $region):?>
-                <?php if( isset($region['url_key']) && $region['url_key'] != "allsites"):?>
-                    <?php if(1):?>
-                        <tr>
-                            <th><?=/*@escapedNotVerified*/$region['region']?> Stores</th>
-                            <th>Address</th>
-                            <th>Hours</th>
-                            <th>Contact</th>
-                        </tr>
-                    <?php endif;?>
-                    <?php
-                    $regionId = $region['id'];
-                    $stores = $block->getRelatedStores($regionId);
-                ;?>
-                    <?php foreach ($stores as $store):?>
+    <?php
+    $_regions = $block->getRegionCollection();
+    $arr = [];
+    ?>
+    <div class="store-all">
+        <div class="column-main">
+            <table class="storelocator-region-table">
+                <?php foreach ($_regions as $region):?>
+                    <?php if( isset($region['url_key']) && $region['url_key'] != "allsites" ):?>
+                        <?php if(!in_array($region['region'],$arr)):?>
+                        <?php $arr[] = $region['region']?>
+                            <tr>
+                                <th><?=/*@escapedNotVerified*/$region['region']?> Stores</th>
+                                <th>Address</th>
+                                <th>Hours</th>
+                                <th>Contact</th>
+                            </tr>
+                        <?php endif;?>
                         <?php
-                        $storeModel = $block->getStore($store['locator_id']);
-                        $address = $storeModel->getAddress();
-                        $_hours = $block->getAggregateHours($store['locator_id']);
-                        ?>
-                        <tr>
-                            <td>
-                                <div class="title">
-                                    <a href="<?=/*@escapedNotVerified*/$block->getStoreUrl($region['url_key'],$storeModel->getIdentifier())?>">
-                                        <?=/*@escpaedNotVerified*/$storeModel->getName()?>
-                                    </a></br>
-                                    <span style="color: red"><?=/*@escpaedNotVerified*/$storeModel->getExtraInfo()?></span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="address">
-                                    <span><?= $address->getStreet()[0]?></span><br>
-                                    <span><span><?= $address->getCity()?></span>, <span ><?= $address->getRegionCode()?> </span><?= $address->getPostcode()?></span>
-                                </div>
-                            </td>
-                            <td class="hours">
-                                <div class="storelocator-hours">
-                                    <div class="column">
-                                        <?php foreach(array_keys($_hours) as $title): ?>
-                                            <span><?php echo $title ?></span>
-                                        <?php endforeach ?>
-                                    </div>
-                                    <div class="column">
-                                        <?php foreach($_hours as $key => $value): ?>
-                                            <span><?php echo $value ?></span>
-                                            <meta content="<?php echo $key.' '.$value ?>">
-                                        <?php endforeach ?>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="storelocator-contact">
-                                    <div class="column">
-                                        <span>Phone</span>
-                                    </div>
-                                    <div class="column">
-                                        <span><a href="tel:+1-<?=$address->getTelephone()?>"><?= $address->getTelephone()?></a></span>
-                                    </div>
-                                    <div class="link">
+                        $regionId = $region['id'];
+                        $stores = $block->getRelatedStores($regionId);
+                    ;?>
+                        <?php foreach ($stores as $store):?>
+                            <?php
+                            $storeModel = $block->getStore($store['locator_id']);
+                            $address = $storeModel->getAddress();
+                            $_hours = $block->getAggregateHours($store['locator_id']);
+                            ?>
+                            <tr>
+                                <td>
+                                    <div class="title">
                                         <a href="<?=/*@escapedNotVerified*/$block->getStoreUrl($region['url_key'],$storeModel->getIdentifier())?>">
-                                            Visit Store Page »
-                                        </a>
+                                            <?=/*@escpaedNotVerified*/$storeModel->getName()?>
+                                        </a></br>
+                                        <span style="color: red"><?=/*@escpaedNotVerified*/$storeModel->getExtraInfo()?></span>
                                     </div>
-                                    <div class="link">
-                                        <?php
-                                        $dest = urlencode($address->getStreet()[0]." " .$address->getCity(). "," . $address->getRegionCode(). " " . $address->getPostcode());
-                                        ?>
-                                        <a href="<?=/*@escapedNotVerified*/"https://maps.google.com/maps?daddr=".$dest?>" target="_blank">
-                                            Get Directions »
-                                        </a>
+                                </td>
+                                <td>
+                                    <div class="address">
+                                        <span><?= $address->getStreet()[0]?></span><br>
+                                        <span><span><?= $address->getCity()?></span>, <span ><?= $address->getRegionCode()?> </span><?= $address->getPostcode()?></span>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach;?>
-                <?php endif;?>
-            <?php endforeach;?>
-        </table>
-        <div class="storelocator-region-description">
-            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('all-stores-bottom')->toHtml();?>
+                                </td>
+                                <td class="hours">
+                                    <div class="storelocator-hours">
+                                        <div class="column">
+                                            <?php foreach(array_keys($_hours) as $title): ?>
+                                                <span><?php echo $title ?></span>
+                                            <?php endforeach ?>
+                                        </div>
+                                        <div class="column">
+                                            <?php foreach($_hours as $key => $value): ?>
+                                                <span><?php echo $value ?></span>
+                                                <meta content="<?php echo $key.' '.$value ?>">
+                                            <?php endforeach ?>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="storelocator-contact">
+                                        <div class="column">
+                                            <span>Phone</span>
+                                        </div>
+                                        <div class="column">
+                                            <span><a href="tel:+1-<?=$address->getTelephone()?>"><?= $address->getTelephone()?></a></span>
+                                        </div>
+                                        <div class="link">
+                                            <a href="<?=/*@escapedNotVerified*/$block->getStoreUrl($region['url_key'],$storeModel->getIdentifier())?>">
+                                                Visit Store Page »
+                                            </a>
+                                        </div>
+                                        <div class="link">
+                                            <?php
+                                            $dest = urlencode($address->getStreet()[0]." " .$address->getCity(). "," . $address->getRegionCode(). " " . $address->getPostcode());
+                                            ?>
+                                            <a href="<?=/*@escapedNotVerified*/"https://maps.google.com/maps?daddr=".$dest?>" target="_blank">
+                                                Get Directions »
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                <?php endforeach;?>
+            </table>
+            <div class="storelocator-region-description">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('all-stores-bottom')->toHtml();?>
+            </div>
+        </div>
+        <div class="column-right">
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('yes-money-image')->toHtml();?>
         </div>
     </div>
-    <div class="column-right">
-        <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('yes-money-image')->toHtml();?>
-    </div>
-</div>

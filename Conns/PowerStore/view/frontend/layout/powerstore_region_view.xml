@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="locator.search.container" remove="true"/>
+        <referenceContainer name="content">
+            <block name="region.description" class="Conns\PowerStore\Block\Region\Description" template="region/description.phtml" />
+            <block class="BrainActs\StoreLocator\Block\Search" name="powerstore.locator.search.container" template="Conns_PowerStore::search/container.phtml" cacheable="false">
+                <block class="BrainActs\StoreLocator\Block\Search\Filter" name="locator.search.filter"  template="Conns_PowerStore::region/search/filter.phtml" cacheable="false"/>
+                <block class="BrainActs\StoreLocator\Block\Search\Map" name="locator.search.map" ifconfig="brainacts_storelocator/search/allow_map" template="BrainActs_StoreLocator::search/map.phtml" cacheable="false"/>
+                <block class="Conns\PowerStore\Block\Search\Result" name="locator.search.result" cacheable="false"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

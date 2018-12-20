@@ -15,4 +15,3 @@
         <block class="Conns\PowerStore\Block\View" name="conns_storelocator_view_right" template="Conns_PowerStore::yesmoney.phtml"/>
     </referenceBlock>
 </page>
-

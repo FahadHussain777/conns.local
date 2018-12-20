@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Conn's. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<form class="storelocator-filter" autocomplete="off" novalidate action="<?=/*@escapedNotVerified*/__('./search')?>" method="post">
+    <h4><?php echo __('Find Your Conn\'s HomePlus')?></h4>
+    <div style="display: none">
+        <label><input type="checkbox" name="advanced_search" id="advanced_search" value="1" autocomplete="off" /> Advanced Filter</label>
+    </div>
+    <hr />
+    <fieldset class="fieldset" data-role="filter_group" id="simple-search-block">
+        <div class="field search-type">
+            <div class="control">
+                <input type="text" name="search_type" id="search_type" value="simple" hidden/>
+                <input type="text" name="current_page" id="current_page" value="1" hidden/>
+                <input type="text" name="page_size" id="page_size" value="10" hidden/>
+                <input type="text" name="page" id="page" value="1" hidden/>
+            </div>
+        </div>
+        <div class="field address">
+            <label class="label" for="address"><?php echo __('Enter Zip Code OR City, State and Select Search Radius ')?></label>
+            <div class="control">
+                <input type="text" name="search" id="address" class="input-text required-entry" />
+            </div>
+        </div>
+        <div class="field distance">
+            <div class="control">
+                <select  class="input-text" name="distance" id="distance">
+                    <?php $distanceCollection = $block->getAvailableDistance()?>
+                    <?php foreach ($distanceCollection as $item):?>
+                        <option value="<?php echo $block->escapeHtml($item)?>"
+                            <?php if ($item==$block->getDefaultDistance()):?>
+                                selected="selected"
+                            <?php endif;?>
+                        >
+                            <?php echo $block->escapeHtml($item)?> <?php echo $block->getUnit($item)?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+    <div class="filter-action">
+        <hr />
+        <button class="action primary" type="submit" ><?php echo __('Find Store')?></button>
+    </div>
+</form>
