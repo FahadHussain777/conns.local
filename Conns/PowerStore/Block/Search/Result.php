@@ -20,6 +20,8 @@ class Result extends Search
 
     private $locatorHelper;
 
+    private $storeManager;
+
     public function __construct(
         \BrainActs\StoreLocator\Api\LocatorRepositoryInterface $locatorRepository,
         LocatorCollectionFactory $locatorCollectionFactory,
@@ -32,6 +34,7 @@ class Result extends Search
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \BrainActs\StoreLocator\Model\Config\Source\Map\Style $style,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \BrainActs\StoreLocator\Helper\Data $locatorHelper,
         \Magento\Framework\Locale\Resolver $locale,
         Template\Context $context,
@@ -40,6 +43,7 @@ class Result extends Search
         $this->hourCollectionFactory = $hourCollectionFactory;
         $this->storeRegion = $storeRegion;
         $this->locatorHelper = $locatorHelper;
+        $this->storeManager = $storeManager;
 
         parent::__construct(
             $locatorRepository,
@@ -96,7 +100,7 @@ class Result extends Search
         return ['latitude', 'longitude', 'name'];
     }
 
-    public function toJsonItem($item)
+    public function toJsonItem($item,$label)
     {
         $fields = $this->getRequireJsonField();
         $array = $item->toArray($fields);
@@ -114,6 +118,17 @@ class Result extends Search
             ->setStoreUrl($this->getStoreUrl($item->getRegionAssigned(),$item->getIdentiFier()))
             ->toHtml();
         $array["popupContent"] = $popupContent;
+        $array['label'] = $label;
+        $image = $this->_scopeConfig->getValue(
+            'brainacts_storelocator/google_maps_api/marker_image',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if(!empty($image)){
+            $mediaUrl = $this->storeManager
+                ->getStore()
+                ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
+            $array['image'] = $mediaUrl.'storelocator/gmap-marker/'.$image;
+        }
         return json_encode($array, JSON_HEX_APOS);
     }
 

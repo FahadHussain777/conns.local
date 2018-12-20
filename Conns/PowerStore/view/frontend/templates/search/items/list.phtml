@@ -21,7 +21,7 @@ $items = $block->getLocatorItems();
             <?php if ($iterator % 3 == 0): ?>
                 <ul class="storelocator-items">
             <?php endif; ?>
-            <li data-role="map-item" data-item-map='{"item":<?php echo $block->toJsonItem($item)?>}'>
+            <li data-role="map-item" data-item-map='{"item":<?php echo $block->toJsonItem($item,chr($i))?>}'>
                 <div class="tile">
                     <div class="storelocator-store-information block">
                         <?php if($item->getExtraInfo()):?>

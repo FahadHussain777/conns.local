@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  ~ Copyright © BrainActs Commerce OÜ. All rights reserved.
-  ~ See LICENSE.txt for license details.
+  ~ Copyright © Conn's. All rights reserved.
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
@@ -13,6 +12,15 @@
                 <field id="view_mode" translate="label" type="select" sortOrder="40" showInDefault="0" showInWebsite="0" showInStore="0" canRestore="0">
                     <label>View Mode</label>
                     <source_model>BrainActs\StoreLocator\Model\Config\Source\Search\ViewMode</source_model>
+                </field>
+            </group>
+            <group id="google_maps_api">
+                <field id="marker_image" translate="label comment" type="image" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store Marker image</label>
+                    <backend_model>Conns\PowerStore\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">gmapmarker</upload_dir>
+                    <base_url type="media" scope_info="1">storelocator/gmap-marker</base_url>
+                    <comment><![CDATA[Allowed file types: jpg, jpeg, gif, png, svg]]></comment>
                 </field>
             </group>
         </section>

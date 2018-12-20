@@ -21,8 +21,9 @@ define([
             var marker = new google.maps.Marker({
                 position: positionMarker,
                 title: item.name,
+                label: item.label,
                 map: this.googleMap,
-                icon: image
+                icon: item.image
             });
 
             var infowindow = new google.maps.InfoWindow({
